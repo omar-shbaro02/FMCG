@@ -1,0 +1,22 @@
+{
+  "name": "fmcg-trade-promotion-distortion-intelligence",
+  "version": "1.0.0",
+  "description": "Multi-agent FMCG Trade Promotion Distortion Intelligence System",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && python main.py",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "setup": "npm install && cd backend && pip install -r requirements.txt && cd ../frontend && npm install && cd ..",
+    "init-db": "cd backend && python setup.py",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
