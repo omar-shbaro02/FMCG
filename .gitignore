@@ -10,6 +10,7 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .venv/
+.tools/
 dist/
 build/
 *.egg-info/
@@ -18,4 +19,3 @@ exports/*
 !uploads/.gitkeep
 !exports/.gitkeep
 .DS_Store
-
