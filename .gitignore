@@ -6,6 +6,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 ENV/
 build/
 develop-eggs/
@@ -51,6 +52,8 @@ node_modules/
 dist/
 *.local
 .vite/
+.next/
+*.tsbuildinfo
 
 # Logs
 *.log

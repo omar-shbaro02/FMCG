@@ -1,0 +1,2 @@
+week_start_date,sku_id,brand,category,channel,region,sell_out_units,sell_in_units,promo_flag,discount_depth,net_sales_value,gross_sales_value,gross_margin,stock_on_hand,out_of_stock_flag,returns_units
+2026-01-05,SKU-1,Brand A,Beverages,Modern Trade,North,100,105,false,0.00,1000.00,1200.00,300.00,250,false,0

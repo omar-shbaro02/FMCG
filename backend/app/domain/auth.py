@@ -1,0 +1,33 @@
+from dataclasses import dataclass
+from enum import StrEnum
+
+
+class UserRole(StrEnum):
+    ADMIN = "ADMIN"
+    COMMERCIAL_DIRECTOR = "COMMERCIAL_DIRECTOR"
+    TRADE_MARKETING_REVIEWER = "TRADE_MARKETING_REVIEWER"
+    SALES_OPERATIONS_REVIEWER = "SALES_OPERATIONS_REVIEWER"
+    COMMERCIAL_FINANCE_REVIEWER = "COMMERCIAL_FINANCE_REVIEWER"
+    CATEGORY_BRAND_REVIEWER = "CATEGORY_BRAND_REVIEWER"
+    ACCOUNT_DISTRIBUTOR_REVIEWER = "ACCOUNT_DISTRIBUTOR_REVIEWER"
+    READ_ONLY_EXECUTIVE = "READ_ONLY_EXECUTIVE"
+
+
+REVIEWER_ROLES = frozenset(
+    {
+        UserRole.TRADE_MARKETING_REVIEWER,
+        UserRole.SALES_OPERATIONS_REVIEWER,
+        UserRole.COMMERCIAL_FINANCE_REVIEWER,
+        UserRole.CATEGORY_BRAND_REVIEWER,
+        UserRole.ACCOUNT_DISTRIBUTOR_REVIEWER,
+    }
+)
+
+
+@dataclass(frozen=True)
+class AuthenticatedUser:
+    id: str
+    email: str
+    display_name: str
+    role: UserRole
+    is_active: bool = True

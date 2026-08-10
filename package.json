@@ -1,22 +1,23 @@
 {
-  "name": "fmcg-trade-promotion-distortion-intelligence",
-  "version": "1.0.0",
-  "description": "Multi-agent FMCG Trade Promotion Distortion Intelligence System",
+  "name": "fmcg-growth-quality-diagnostic",
+  "version": "0.1.0",
+  "description": "VAI FMCG Forecast-Augmented Growth Quality Diagnostic",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && python main.py",
-    "dev:frontend": "cd frontend && npm run dev",
-    "build": "cd frontend && npm run build",
-    "setup": "npm install && cd backend && pip install -r requirements.txt && cd ../frontend && npm install && cd ..",
-    "init-db": "cd backend && python setup.py",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload --port 8000",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "test": "npm --prefix frontend test",
+    "typecheck": "npm --prefix frontend run typecheck",
     "start": "npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
   }
 }
