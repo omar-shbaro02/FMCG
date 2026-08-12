@@ -86,13 +86,13 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 19 — Frontend workflow**
   - Build only the 11 workflow pages in the brief; make evidence, draft status,
     and uncertainty clear; provide no execution controls or generic dashboard.
-- [ ] **Task 20 — Human review and feedback**
+- [x] **Task 20 — Human review and feedback**
   - Add evidence, validation/correction/rejection, separate feedback, original
     output preservation, and audited human attribution.
-- [ ] **Task 21 — Exports**
+- [x] **Task 21 — Exports**
   - Produce access-controlled PDF, Markdown, and JSON exports whose content and
     draft/review labels match the stored output.
-- [ ] **Task 22 — Audit and admin health**
+- [x] **Task 22 — Audit and admin health**
   - Audit all material transitions and expose admin-only jobs, system health,
     prompt/classifier/adapter versions without secrets.
 - [ ] **Task 23 — Security hardening**

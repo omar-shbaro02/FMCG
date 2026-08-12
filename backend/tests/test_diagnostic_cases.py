@@ -144,6 +144,44 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
             f"/api/diagnostic-cases/{case_id}/decision-intelligence/latest",
             headers=headers,
         )
+        original_markdown = latest_output.json()["output_markdown"]
+        review = client.post(
+            f"/api/diagnostic-cases/{case_id}/reviews",
+            headers=headers,
+            json={
+                "review_status": "VALIDATED_WITH_CHANGES",
+                "validated_risk_class": "TEMPORARY_UPLIFT",
+                "reviewer_comments": "Aligned actuals support the corrected class.",
+                "requested_evidence": [],
+                "final_decision_note": "Human validation completed; no action was executed.",
+            },
+        )
+        reviews = client.get(f"/api/diagnostic-cases/{case_id}/reviews", headers=headers)
+        feedback = client.post(
+            f"/api/diagnostic-cases/{case_id}/feedback",
+            headers=headers,
+            json={
+                "feedback_type": "POST_REVIEW_OUTCOME",
+                "observed_outcome": {"window": "4 weeks"},
+                "classification_correct": False,
+                "simulation_useful": True,
+                "notes": "Correction stored separately from the draft.",
+            },
+        )
+        exports = {
+            export_format: client.post(
+                f"/api/diagnostic-cases/{case_id}/export?format={export_format}",
+                headers=headers,
+            )
+            for export_format in ("json", "markdown", "pdf")
+        }
+        reviewed_output = client.get(
+            f"/api/diagnostic-cases/{case_id}/decision-intelligence/latest",
+            headers=headers,
+        )
+        admin_health = client.get("/api/admin/health", headers=headers)
+        admin_config = client.get("/api/admin/configuration-metadata", headers=headers)
+        audit_page = client.get("/api/admin/audit-events", headers=headers)
         listed = client.get("/api/diagnostic-cases?page=1&page_size=10", headers=headers)
 
     assert patched.status_code == 200
@@ -168,6 +206,19 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
     assert len(decision_intelligence.json()["output_json"]["decision_simulation"]) == 7
     assert latest_output.status_code == 200
     assert latest_output.json()["id"] == decision_intelligence.json()["id"]
+    assert review.status_code == 201
+    assert review.json()["review_status"] == "VALIDATED_WITH_CHANGES"
+    assert reviews.status_code == 200 and len(reviews.json()) == 1
+    assert feedback.status_code == 201
+    assert feedback.json()["classification_correct"] is False
+    assert exports["json"].json()["review_label"] == "HUMAN REVIEW COMPLETED"
+    assert "HUMAN REVIEW COMPLETED" in exports["markdown"].text
+    assert exports["pdf"].content.startswith(b"%PDF-1.4")
+    assert reviewed_output.json()["output_markdown"] == original_markdown
+    assert reviewed_output.json()["human_review_status"] == "VALIDATED_WITH_CHANGES"
+    assert admin_health.json()["database"] == "reachable"
+    assert admin_config.json()["secrets_included"] is False
+    assert audit_page.status_code == 200 and audit_page.json()["total"] > 0
     assert listed.status_code == 200
     assert any(item["id"] == case_id for item in listed.json()["items"])
     with SessionLocal() as session:

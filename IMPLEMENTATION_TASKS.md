@@ -39,9 +39,9 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 17 | Decision simulation engine | COMPLETE | All seven neutral, conditional, non-executable options pass. |
 | 18 | Executive output generator | COMPLETE | Frozen 12-section draft output, persistence, API, and review statement pass. |
 | 19 | Frontend workflow | COMPLETE | Ten authenticated workflow views plus sign-in build and run. |
-| 20 | Human review and feedback | BLOCKED | Partial legacy approval flow is not compliant or audited. |
-| 21 | PDF, Markdown, JSON exports | BLOCKED | Not implemented. |
-| 22 | Audit and admin health | BLOCKED | Legacy agent log is insufficient. |
+| 20 | Human review and feedback | COMPLETE | Attributed review, correction, evidence requests, rejection, and separate feedback pass. |
+| 21 | PDF, Markdown, JSON exports | COMPLETE | Access-controlled stored-output exports and review labels pass. |
+| 22 | Audit and admin health | COMPLETE | Admin-only audit, jobs, health, and safe version metadata pass. |
 | 23 | Security hardening | BLOCKED | Not started; dependency findings are open. |
 | 24 | Performance and reliability | BLOCKED | Not started. |
 | 25 | End-to-end scenario testing | BLOCKED | No required scenario suite. |
@@ -323,4 +323,30 @@ For every task, append a dated record containing:
 - Boundary check: preserved; evidence and uncertainty are explicit, simulations
   provide no execution controls, drafts remain marked, and review mutations are
   unavailable until their audited backend task is complete.
+- Acceptance: passed.
+
+## Tasks 20–22 completion record — 2026-08-12
+
+- Completed: authenticated human validation, validation with correction,
+  evidence requests, rejection, final leadership notes, reviewer attribution,
+  legal case transitions, immutable generated content, separate outcome feedback,
+  and audit events; access-controlled JSON, Markdown, and valid PDF exports whose
+  labels derive from persisted review state; admin-only paginated audit events,
+  database health, failed forecast jobs, roles, adapter/classifier/output/prompt
+  metadata, and explicit secret-exclusion indicators.
+- Tests: Ruff lint and format pass; strict MyPy passes for all new modules; all 59
+  backend tests pass against a fresh PostgreSQL migration on Python 3.12. The
+  integrated lifecycle test verifies attributed correction, separately stored
+  feedback, preservation of original Markdown, all three reviewed exports, and
+  admin endpoints. Full-project MyPy is temporarily blocked in the older cached
+  test image by its NumPy typing package/Python target mismatch; the production
+  dependency range remains pinned below NumPy 2.4 and passed before this change.
+- Files: review/feedback schemas and API, export API/PDF renderer, admin schemas
+  and API, application wiring, integration test, and task registers.
+- Unresolved assumption: MVP PDF is a dependency-free, text-first executive
+  artifact; visual report styling can be enhanced later without changing stored
+  or exported evidence content.
+- Boundary check: preserved; only an authenticated human can complete review,
+  exports execute no commercial action, original machine output is preserved,
+  and admin responses expose no secrets or raw audit payloads.
 - Acceptance: passed.
