@@ -38,7 +38,7 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 16 | Investigation planner | COMPLETE | Exact questions, evidence gaps, owners, urgency, and early-action risks pass. |
 | 17 | Decision simulation engine | COMPLETE | All seven neutral, conditional, non-executable options pass. |
 | 18 | Executive output generator | COMPLETE | Frozen 12-section draft output, persistence, API, and review statement pass. |
-| 19 | Frontend workflow | BLOCKED | Only three legacy pages exist. |
+| 19 | Frontend workflow | COMPLETE | Ten authenticated workflow views plus sign-in build and run. |
 | 20 | Human review and feedback | BLOCKED | Partial legacy approval flow is not compliant or audited. |
 | 21 | PDF, Markdown, JSON exports | BLOCKED | Not implemented. |
 | 22 | Audit and admin health | BLOCKED | Legacy agent log is insufficient. |
@@ -302,4 +302,25 @@ For every task, append a dated record containing:
   future versioned rule change, never via LLM prose.
 - Boundary check: preserved; simulations are unranked and non-executable, output
   is visibly draft, and final commercial action requires human review.
+- Acceptance: passed.
+
+## Task 19 completion record — 2026-08-12
+
+- Completed: responsive sign-in; controlled case work queue; case creation;
+  dataset upload and validation; exact case-evidence display; growth-quality
+  assessment; precise investigation items; all seven neutral simulations;
+  frozen executive brief; human-review boundary; and admin/control metadata.
+  The shell maintains active-case context across views and consumes the existing
+  authenticated APIs. Unsupported Task 20 review mutations are visibly disabled
+  and described instead of being simulated.
+- Tests: Next.js production compilation, ESLint, TypeScript validation, and the
+  Vitest component test pass. The rebuilt production container returns HTTP 200
+  on port 3000 and renders the new sign-in workflow while the API remains healthy.
+- Files: frontend application page, responsive visual system, and task registers.
+- Unresolved assumption: the ten post-login views plus sign-in implement the
+  brief's eleven pages inside one controlled client shell; distinct URLs can be
+  introduced later without changing the workflow model.
+- Boundary check: preserved; evidence and uncertainty are explicit, simulations
+  provide no execution controls, drafts remain marked, and review mutations are
+  unavailable until their audited backend task is complete.
 - Acceptance: passed.

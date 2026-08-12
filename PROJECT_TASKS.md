@@ -83,7 +83,7 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 18 — Executive output generator**
   - Generate the frozen 12-section structured/rendered output with approved
     language, owner, confidence, and mandatory human-review statement.
-- [ ] **Task 19 — Frontend workflow**
+- [x] **Task 19 — Frontend workflow**
   - Build only the 11 workflow pages in the brief; make evidence, draft status,
     and uncertainty clear; provide no execution controls or generic dashboard.
 - [ ] **Task 20 — Human review and feedback**
