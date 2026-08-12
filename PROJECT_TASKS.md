@@ -63,16 +63,16 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 11 — Forecast evidence derivation**
   - Deterministically derive direction, baseline comparison, retention, decay,
     uncertainty, and supported sell-in/sell-out divergence with traceability.
-- [ ] **Task 12 — Project-lead forecast-adapter review gate** (`AWAITING_APPROVAL`)
+- [x] **Task 12 — Project-lead forecast-adapter review gate**
   - Present sample inputs/outputs, failure and uncertainty cases, and adapter
     replacement proof; obtain approval before Task 13.
-- [ ] **Task 13 — FMCG interpretation engine**
+- [x] **Task 13 — FMCG interpretation engine**
   - Implement deterministic synthesis plus a controlled, schema-validated LLM
     gateway with evidence references, bounded retries, and explicit uncertainty.
-- [ ] **Task 14 — Growth-quality classifier**
+- [x] **Task 14 — Growth-quality classifier**
   - Implement/version all ten classes, primary/secondary outcomes, confidence,
     separate priority logic, exclusions, and fixture expectations.
-- [ ] **Task 15 — Kamal commercial-realism review gate**
+- [ ] **Task 15 — Kamal commercial-realism review gate** (`AWAITING_APPROVAL`)
   - Review the seven required commercial patterns and obtain approval.
 - [ ] **Task 16 — Investigation planner**
   - Generate precise questions, evidence, gaps, owner, affected decision,

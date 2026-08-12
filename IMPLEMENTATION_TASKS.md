@@ -31,10 +31,10 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 9 | Forecast Adapter interface | COMPLETE | Strict contracts, registry, deterministic mock, and substitution boundary pass. |
 | 10 | TimesFM adapter | COMPLETE | Current 2.5 API isolated; normalized inference and structured failures pass. |
 | 11 | Forecast evidence derivation | COMPLETE | Deterministic evidence, persistence, API, audit, and tests pass. |
-| 12 | Kamal review: Forecast Adapter | AWAITING APPROVAL | Review packet is ready in `docs/forecast-adapter-review.md`. |
-| 13 | FMCG interpretation engine | BLOCKED | Legacy agent output is noncompliant. |
-| 14 | Growth-quality classifier | BLOCKED | Frozen classes and rules absent. |
-| 15 | Kamal review: commercial realism | BLOCKED | Mandatory human gate. |
+| 12 | Project-lead review: Forecast Adapter | COMPLETE | Approved by user direction to continue on 2026-08-12. |
+| 13 | FMCG interpretation engine | COMPLETE | Deterministic synthesis and controlled LLM boundary pass. |
+| 14 | Growth-quality classifier | COMPLETE | Versioned frozen classes, priority, exclusions, and fixtures pass. |
+| 15 | Kamal review: commercial realism | AWAITING APPROVAL | Review packet ready; mandatory human gate. |
 | 16 | Investigation planner | BLOCKED | Not implemented. |
 | 17 | Decision simulation engine | BLOCKED | Not implemented. |
 | 18 | Executive output generator | BLOCKED | Required output contract absent. |
@@ -259,3 +259,22 @@ For every task, append a dated record containing:
 - Boundary check: preserved; evidence describes numeric movement and uncertainty
   only. It does not recommend, prioritize, assign an owner, or execute.
 - Acceptance: passed.
+
+## Tasks 13–14 completion record — 2026-08-12
+
+- Completed: deterministic FMCG interpretation with facts separated from
+  candidate meaning, supporting/contradicting/missing evidence and uncertainty;
+  strict controlled-LLM schemas, evidence-key validation, forbidden-action
+  rejection and bounded retries; all ten frozen classifier labels; one primary
+  and multiple secondary outcomes; explicit exclusions; separate confidence and
+  priority; P1 convergence; auditable definitions/owners; and versioned rules.
+- Tests: Ruff lint and format, strict MyPy, fresh Alembic migration, and all 55
+  backend Pytest tests pass against PostgreSQL on Python 3.12.
+- Files: interpretation domain/tests, controlled LLM boundary/tests,
+  classification domain/tests, and commercial-realism review packet.
+- Unresolved assumption: version-one ordering and P1 sensitivity require the
+  mandatory Task 15 commercial review before investigation planning begins.
+- Boundary check: preserved; LLM prose cannot set classification, the classifier
+  cannot recommend or execute action, and every result remains subject to human
+  review.
+- Acceptance: implementation passed; Task 15 approval remains open.

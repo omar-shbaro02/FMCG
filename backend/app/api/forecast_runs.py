@@ -1,6 +1,5 @@
 import uuid
 from datetime import UTC, datetime
-from decimal import Decimal
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
