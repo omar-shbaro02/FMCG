@@ -8,7 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select
 
 from app.api.auth import router as auth_router
+from app.api.baselines import router as baselines_router
 from app.api.datasets import router as datasets_router
+from app.api.diagnostic_cases import router as diagnostic_cases_router
 from app.config import get_settings
 from app.database import SessionLocal
 from app.domain.auth import UserRole
@@ -51,7 +53,9 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(baselines_router)
 app.include_router(datasets_router)
+app.include_router(diagnostic_cases_router)
 
 
 @app.get("/health", tags=["operations"])

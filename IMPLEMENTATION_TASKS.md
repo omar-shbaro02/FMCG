@@ -26,10 +26,10 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 4 | Dataset upload | COMPLETE | Non-root container upload, persistence, audit, volume, and duplicate smoke checks pass. |
 | 5 | Data validation engine | COMPLETE | Structured CSV/XLSX validation, persistence, audit, and 20-test suite pass. |
 | 6 | Demo data generator | COMPLETE | Eight seeded synthetic scenarios and machine-readable truth pass tests. |
-| 7 | Case management | BLOCKED | Legacy promotion cases do not meet the diagnostic contract. |
-| 8 | Baseline engine | BLOCKED | Not implemented. |
-| 9 | Forecast Adapter interface | BLOCKED | Not implemented. |
-| 10 | TimesFM adapter | BLOCKED | Not implemented. |
+| 7 | Case management | COMPLETE | Typed CRUD, readiness, transitions, authorization, audit, and tests pass. |
+| 8 | Baseline engine | COMPLETE | Configurable traceable calculations, persistence, audit, and tests pass. |
+| 9 | Forecast Adapter interface | COMPLETE | Strict contracts, registry, deterministic mock, and substitution boundary pass. |
+| 10 | TimesFM adapter | IN PROGRESS | Implementing isolated lazy-loaded adapter and structured failures. |
 | 11 | Forecast evidence derivation | BLOCKED | Not implemented. |
 | 12 | Kamal review: Forecast Adapter | BLOCKED | Mandatory human gate. |
 | 13 | FMCG interpretation engine | BLOCKED | Legacy agent output is noncompliant. |
@@ -157,4 +157,60 @@ For every task, append a dated record containing:
   against, but must never read, the truth labels at runtime.
 - Boundary check: preserved; fixtures model only frozen FMCG diagnostic evidence,
   contain no real client data, and execute no action.
+- Acceptance: passed.
+
+## Task 7 completion record — 2026-08-12
+
+- Completed: typed create/update/list/view endpoints, pagination, draft-only edits,
+  4–8 week horizon and promotion-window constraints, legal status-transition map,
+  validated-dataset and selected-series eligibility checks, exact grain evidence,
+  promoted-observation readiness, submit-to-ready flow, RBAC, and audited create,
+  update, and submit events.
+- Tests: Ruff, format, strict MyPy, and all 26 backend tests pass on Python 3.12
+  with PostgreSQL. Tests cover CRUD/list, readiness, submit, invalid scope, horizon,
+  promotion window, and illegal transitions.
+- Files: case domain, typed schemas, API router/wiring, and case tests.
+- Unresolved assumptions: reviewers do not own cases in the MVP; Admin and
+  Commercial Director manage them, while reviewer assignment arrives with the
+  investigation workflow. Case submission advances deterministically through
+  `DATA_VALIDATION` to `READY_FOR_FORECAST` after readiness passes.
+- Boundary check: preserved; cases select evidence scope and never initiate a
+  forecast or commercial action automatically.
+- Acceptance: passed.
+
+## Task 8 completion record — 2026-08-12
+
+- Completed: recent pre-promotion average, median, prior-year seasonal,
+  model-supplied, and controlled-fallback baselines; chronological inputs;
+  configurable recent window; promotion and out-of-stock exclusions; assumptions,
+  input/output snapshots, exclusion reasons, distortion notes, quality score,
+  persistence, API, RBAC, and audit.
+- Tests: Ruff, format, strict MyPy, and all 30 backend tests pass. Unit tests cover
+  average, median, fallback, seasonal insufficiency, model-value validation,
+  distortion exclusion, and quality scoring; API test persists a six-week result.
+- Files: baseline domain, schemas, API/wiring, tests, and task documentation.
+- Unresolved assumptions: seasonal matching uses exact month/day in the prior
+  year and refuses unsupported dates rather than fabricating history. The model
+  method accepts only already-controlled numeric baseline output; forecasting is
+  implemented separately.
+- Boundary check: preserved; positive baseline movement is never labeled healthy.
+- Acceptance: passed.
+
+## Task 9 completion record — 2026-08-12
+
+- Completed: abstract six-method `ForecastAdapter`, strict weekly sell-out request
+  and normalized response contracts, frozen enums, finite values and valid
+  intervals, chronological unique history, exact series/context grain, 4–8 week
+  horizon, deterministic mock, explicit adapter registry, health/metadata, and
+  structured adapter-error schema.
+- Tests: Ruff, format, strict MyPy, and all 34 backend tests pass. Contract tests
+  prove deterministic mock behavior and rejection of malformed/non-finite output,
+  unknown fields, forbidden commercial recommendation fields, mismatched grain,
+  nonchronological history, and silent TimesFM-to-mock fallback.
+- Files: forecast adapter interface/schemas/mock/registry and contract tests.
+- Unresolved assumptions: the mock uses a transparent recent-level and linear
+  slope solely for deterministic development; its output is explicitly labeled
+  non-commercial evidence.
+- Boundary check: preserved; adapters output numeric evidence only, and strict
+  schemas prohibit commercial classes, owners, priorities, or actions.
 - Acceptance: passed.

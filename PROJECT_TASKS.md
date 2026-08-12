@@ -47,16 +47,16 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
   - Add deterministic synthetic fixtures for healthy growth, temporary uplift,
     pull-forward, loading, discount dependency, cannibalization, margin risk,
     and insufficient evidence; document scenario truth.
-- [ ] **Task 7 — Case management** (`NEXT`)
+- [x] **Task 7 — Case management**
   - Implement create/update/list/view, scope, promotion window, legal status
     transitions, series-grain enforcement, and readiness validation.
-- [ ] **Task 8 — Baseline engine**
+- [x] **Task 8 — Baseline engine**
   - Implement explicit configurable baselines, stored assumptions/exclusions,
     out-of-stock and promotion-contamination notes, and unit tests.
-- [ ] **Task 9 — Forecast Adapter interface**
+- [x] **Task 9 — Forecast Adapter interface**
   - Implement typed contracts, abstract adapter, registry, deterministic mock,
     output validation, and implementation-substitution contract tests.
-- [ ] **Task 10 — TimesFM adapter**
+- [ ] **Task 10 — TimesFM adapter** (`IN_PROGRESS`)
   - Isolate TimesFM imports/configuration inside the adapter; support the
     primary target, 4–8 week horizon, structured errors, metadata, latency,
     and explicit non-production fallback behavior.

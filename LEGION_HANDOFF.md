@@ -3,7 +3,7 @@
 Last updated: 2026-08-10  
 Repository branch: `main`  
 Last committed revision: `6cdf75e Initial commit`  
-Current implementation phase: Task 7 — Case Management
+Current implementation phase: Task 10 — TimesFM Adapter
 
 ## Read this first
 
@@ -123,9 +123,8 @@ Current test state: **15 backend tests pass**.
 
 ## Exact stopping point
 
-Tasks 4–6 were completed and verified on 2026-08-12 using rootless Podman with
-the production Python 3.12 Dockerfile and PostgreSQL 16. The next ordered task is
-Task 7 — case management.
+Tasks 4–9 are complete. The next ordered task is Task 10 — the isolated TimesFM
+adapter. Tasks 7–9 pass as part of the 34-test backend suite.
 
 ## First actions on the Legion
 
@@ -292,9 +291,11 @@ When these pass, change Task 4 to `COMPLETE` in `IMPLEMENTATION_TASKS.md` and ap
 
 ## Next implementation task
 
-Start **Task 7 — Case Management**. Implement typed create/update/list/view,
-legal status transitions, validated-dataset and scope checks, required promotion
-window, 4–8 week horizon, series-grain existence, and readiness validation.
+Start **Task 10 — TimesFM Adapter**. Keep every TimesFM import and provider field
+inside `backend/app/adapters/forecast/`; lazy-load model weights; return only the
+normalized contract; cover model unavailable, input length, malformed data,
+timeout, memory, and non-finite output with structured errors; record metadata
+and latency; never silently fall back to mock.
 
 ## Known issues and deferred work
 
@@ -327,5 +328,5 @@ Do not discard these changes with `git reset --hard` or checkout commands.
 
 The Legion continuation point is:
 
-> Build Task 7 case management with readiness and transition tests, record it
-> complete, then begin Task 8 baseline calculations.
+> Complete and contract-test Task 10, then build deterministic forecast evidence
+> derivation in Task 11 before stopping at the Task 12 human review gate.
