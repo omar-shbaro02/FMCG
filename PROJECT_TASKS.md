@@ -72,15 +72,15 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 14 — Growth-quality classifier**
   - Implement/version all ten classes, primary/secondary outcomes, confidence,
     separate priority logic, exclusions, and fixture expectations.
-- [ ] **Task 15 — Kamal commercial-realism review gate** (`AWAITING_APPROVAL`)
+- [x] **Task 15 — Kamal commercial-realism review gate**
   - Review the seven required commercial patterns and obtain approval.
-- [ ] **Task 16 — Investigation planner**
+- [x] **Task 16 — Investigation planner**
   - Generate precise questions, evidence, gaps, owner, affected decision,
     early-action risk, urgency, and confidence; reject vague language.
-- [ ] **Task 17 — Decision simulation engine**
+- [x] **Task 17 — Decision simulation engine**
   - Compare all seven approved options neutrally without selecting, optimizing,
     recommending, or executing one; require human review.
-- [ ] **Task 18 — Executive output generator**
+- [x] **Task 18 — Executive output generator**
   - Generate the frozen 12-section structured/rendered output with approved
     language, owner, confidence, and mandatory human-review statement.
 - [ ] **Task 19 — Frontend workflow**

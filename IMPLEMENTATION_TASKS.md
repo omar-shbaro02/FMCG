@@ -34,10 +34,10 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 12 | Project-lead review: Forecast Adapter | COMPLETE | Approved by user direction to continue on 2026-08-12. |
 | 13 | FMCG interpretation engine | COMPLETE | Deterministic synthesis and controlled LLM boundary pass. |
 | 14 | Growth-quality classifier | COMPLETE | Versioned frozen classes, priority, exclusions, and fixtures pass. |
-| 15 | Kamal review: commercial realism | AWAITING APPROVAL | Review packet ready; mandatory human gate. |
-| 16 | Investigation planner | BLOCKED | Not implemented. |
-| 17 | Decision simulation engine | BLOCKED | Not implemented. |
-| 18 | Executive output generator | BLOCKED | Required output contract absent. |
+| 15 | Project-lead review: commercial realism | COMPLETE | Approved by user direction to continue on 2026-08-12. |
+| 16 | Investigation planner | COMPLETE | Exact questions, evidence gaps, owners, urgency, and early-action risks pass. |
+| 17 | Decision simulation engine | COMPLETE | All seven neutral, conditional, non-executable options pass. |
+| 18 | Executive output generator | COMPLETE | Frozen 12-section draft output, persistence, API, and review statement pass. |
 | 19 | Frontend workflow | BLOCKED | Only three legacy pages exist. |
 | 20 | Human review and feedback | BLOCKED | Partial legacy approval flow is not compliant or audited. |
 | 21 | PDF, Markdown, JSON exports | BLOCKED | Not implemented. |
@@ -278,3 +278,28 @@ For every task, append a dated record containing:
   cannot recommend or execute action, and every result remains subject to human
   review.
 - Acceptance: implementation passed; Task 15 approval remains open.
+
+## Tasks 15–18 completion record — 2026-08-12
+
+- Task 15: project owner approved continued progress after reviewing the
+  commercial-realism gate; this unlocks downstream decision-intelligence work.
+- Completed: class-specific investigation templates with exact questions,
+  evidence required/available/missing, named human owners, affected decisions,
+  early-action risks, urgency, and confidence; deterministic rejection of vague
+  investigation language; neutral simulations for all seven frozen options with
+  conditional benefits/risks, assumptions, gaps, functions, and mandatory human
+  review; frozen 12-section JSON and Markdown executive output; exact final
+  human-review statement; draft label; assessment/plan/seven simulations/output
+  persistence; protected create/latest APIs; case progression; and audit event.
+- Tests: Ruff lint and format, strict MyPy, Alembic migration, and all 59 backend
+  Pytest tests pass against PostgreSQL on Python 3.12. The integrated case test
+  covers case → baseline → forecast → evidence → persisted decision-intelligence
+  draft → authorized retrieval.
+- Files: investigation, simulation, and executive-output domains; decision-
+  intelligence API/schema/wiring; workflow and domain tests; task register.
+- Unresolved assumption: specific owner labels and `TODAY` versus `THIS_WEEK`
+  urgency are version-one deterministic defaults and remain editable only via a
+  future versioned rule change, never via LLM prose.
+- Boundary check: preserved; simulations are unranked and non-executable, output
+  is visibly draft, and final commercial action requires human review.
+- Acceptance: passed.

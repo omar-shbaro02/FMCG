@@ -1,6 +1,6 @@
 # Task 15 — Commercial-realism review
 
-Status: `AWAITING PROJECT-LEAD APPROVAL`
+Status: `APPROVED BY PROJECT OWNER — 2026-08-12`
 
 Reviewer role: Kamal / designated FMCG commercial lead. The project owner may
 approve this gate directly or record Kamal's decision.
@@ -57,3 +57,6 @@ P1 triggers are neither too sensitive nor too permissive. Approval unlocks Task
 16. If changes are required, identify the pattern and threshold/condition; the
 rule version will be revised and the fixtures rerun before this gate is presented
 again.
+
+Decision recorded: the project owner directed continued progress on 2026-08-12,
+approving this gate and unlocking Task 16.

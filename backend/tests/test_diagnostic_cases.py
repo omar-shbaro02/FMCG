@@ -136,6 +136,14 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
             f"/api/diagnostic-cases/{case_id}/forecast-evidence",
             headers=headers,
         )
+        decision_intelligence = client.post(
+            f"/api/diagnostic-cases/{case_id}/decision-intelligence",
+            headers=headers,
+        )
+        latest_output = client.get(
+            f"/api/diagnostic-cases/{case_id}/decision-intelligence/latest",
+            headers=headers,
+        )
         listed = client.get("/api/diagnostic-cases?page=1&page_size=10", headers=headers)
 
     assert patched.status_code == 200
@@ -155,6 +163,11 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
     assert forecast_run.json()["adapter_name"] == "mock"
     assert forecast_evidence.status_code == 200
     assert forecast_evidence.json()["forecast_horizon"] == 6
+    assert decision_intelligence.status_code == 201
+    assert decision_intelligence.json()["human_review_status"] == "PENDING"
+    assert len(decision_intelligence.json()["output_json"]["decision_simulation"]) == 7
+    assert latest_output.status_code == 200
+    assert latest_output.json()["id"] == decision_intelligence.json()["id"]
     assert listed.status_code == 200
     assert any(item["id"] == case_id for item in listed.json()["items"])
     with SessionLocal() as session:
