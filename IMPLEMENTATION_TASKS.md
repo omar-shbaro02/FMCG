@@ -29,9 +29,9 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 7 | Case management | COMPLETE | Typed CRUD, readiness, transitions, authorization, audit, and tests pass. |
 | 8 | Baseline engine | COMPLETE | Configurable traceable calculations, persistence, audit, and tests pass. |
 | 9 | Forecast Adapter interface | COMPLETE | Strict contracts, registry, deterministic mock, and substitution boundary pass. |
-| 10 | TimesFM adapter | IN PROGRESS | Implementing isolated lazy-loaded adapter and structured failures. |
-| 11 | Forecast evidence derivation | BLOCKED | Not implemented. |
-| 12 | Kamal review: Forecast Adapter | BLOCKED | Mandatory human gate. |
+| 10 | TimesFM adapter | COMPLETE | Current 2.5 API isolated; normalized inference and structured failures pass. |
+| 11 | Forecast evidence derivation | COMPLETE | Deterministic evidence, persistence, API, audit, and tests pass. |
+| 12 | Kamal review: Forecast Adapter | AWAITING APPROVAL | Review packet is ready in `docs/forecast-adapter-review.md`. |
 | 13 | FMCG interpretation engine | BLOCKED | Legacy agent output is noncompliant. |
 | 14 | Growth-quality classifier | BLOCKED | Frozen classes and rules absent. |
 | 15 | Kamal review: commercial realism | BLOCKED | Mandatory human gate. |
@@ -213,4 +213,49 @@ For every task, append a dated record containing:
   non-commercial evidence.
 - Boundary check: preserved; adapters output numeric evidence only, and strict
   schemas prohibit commercial classes, owners, priorities, or actions.
+- Acceptance: passed.
+
+## Task 10 completion record — 2026-08-12
+
+- Completed: TimesFM 2.5 PyTorch adapter using the current official
+  `TimesFM_2p5_200M_torch`/`ForecastConfig` API; lazy model loading; configurable
+  model ID, context, horizon, batch, device metadata, timeout, and quantile bounds;
+  provider-array normalization; finite/shape/interval validation; latency and
+  model metadata; health check; and explicit unavailable, length, malformed,
+  timeout, memory, model, and non-finite failure categories.
+- Tests: all 38 backend tests plus lint/format/strict typing pass. TimesFM contract
+  tests use provider-shaped point/quantile arrays and cover success, metadata,
+  latency, context rejection, non-finite output, timeout, unavailable runtime,
+  and registry selection without mock fallback.
+- Files: TimesFM adapter/config/tests, registry, optional dependency group, and
+  environment template.
+- Unresolved assumptions: production installs `backend[timesfm]` and provisions
+  the configured Hugging Face weights/cache. Model weights are external deployment
+  data and are not downloaded into or committed with the application. The current
+  confidence interval uses official q10/q90 indices (80% interval).
+- Boundary check: preserved; TimesFM imports/provider fields remain inside the
+  adapter package and it emits no commercial classification or action.
+- Acceptance: passed at the replaceable adapter contract and inference boundary.
+
+## Task 11 completion record — 2026-08-12
+
+- Completed: deterministic direction, baseline comparison, post-promotion
+  retention, decay, interval-width uncertainty, and sell-in/sell-out divergence;
+  explicit insufficiency for missing/misaligned baselines; traceable numeric
+  evidence keys; data-quality note preservation; forecast-run and evidence
+  persistence; adapter/model/version/latency metadata; failure state; protected
+  run/evidence APIs; case transition; and audit.
+- Tests: lint, format, strict MyPy, and all 41 backend tests pass. Tests cover
+  sustained/above-baseline, strong decline/decay, high uncertainty, loading
+  divergence, insufficiency, and the full case → baseline → forecast run → stored
+  evidence API path.
+- Files: forecast-evidence domain/tests, forecast-run schemas/API/wiring, and case
+  integration coverage.
+- Unresolved assumptions: version-one deterministic thresholds are >5% for
+  above/below baseline and direction, ≥10% for sustained retention, <85% for
+  collapsed retention, and interval width ratios of 20%/50% for low/medium/high.
+  These must receive commercial review and later be versioned with classifier
+  rules; they do not constitute commercial classification.
+- Boundary check: preserved; evidence describes numeric movement and uncertainty
+  only. It does not recommend, prioritize, assign an owner, or execute.
 - Acceptance: passed.

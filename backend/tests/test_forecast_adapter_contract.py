@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from app.adapters.forecast import ForecastAdapterConfigurationError, get_forecast_adapter
 from app.adapters.forecast.schemas import ForecastContext, ForecastRequest, HistoryPoint
+from app.adapters.forecast.timesfm_adapter import TimesFMAdapter
 
 
 def request() -> ForecastRequest:
@@ -62,6 +63,7 @@ def test_request_enforces_series_grain_and_chronology() -> None:
         ForecastRequest.model_validate(payload)
 
 
-def test_timesfm_never_silently_falls_back_to_mock() -> None:
-    with pytest.raises(ForecastAdapterConfigurationError, match="no silent mock fallback"):
-        get_forecast_adapter("timesfm")
+def test_registry_selects_timesfm_without_silent_mock_fallback() -> None:
+    assert isinstance(get_forecast_adapter("timesfm"), TimesFMAdapter)
+    with pytest.raises(ForecastAdapterConfigurationError):
+        get_forecast_adapter("unknown")

@@ -17,6 +17,14 @@ class Settings(BaseSettings):
     bootstrap_admin_email: str = "admin@example.com"
     bootstrap_admin_password: str = Field(default="development-admin-only", min_length=12)
     forecast_adapter: str = "mock"
+    timesfm_model_id: str = "google/timesfm-2.5-200m-pytorch"
+    timesfm_context_length: int = Field(default=1024, ge=4, le=16384)
+    timesfm_horizon: int = Field(default=6, ge=4, le=8)
+    timesfm_batch_size: int = Field(default=16, ge=1, le=1024)
+    timesfm_device: str = "cpu"
+    timesfm_timeout_seconds: int = Field(default=120, ge=1, le=1800)
+    timesfm_quantile_lower_index: int = Field(default=1, ge=0, le=9)
+    timesfm_quantile_upper_index: int = Field(default=9, ge=0, le=9)
     upload_directory: str = "./var/uploads"
     max_upload_bytes: int = Field(default=20 * 1024 * 1024, ge=1024)
     minimum_history_weeks: int = Field(default=12, ge=4, le=104)

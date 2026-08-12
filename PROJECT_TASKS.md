@@ -56,14 +56,14 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 9 — Forecast Adapter interface**
   - Implement typed contracts, abstract adapter, registry, deterministic mock,
     output validation, and implementation-substitution contract tests.
-- [ ] **Task 10 — TimesFM adapter** (`IN_PROGRESS`)
+- [x] **Task 10 — TimesFM adapter**
   - Isolate TimesFM imports/configuration inside the adapter; support the
     primary target, 4–8 week horizon, structured errors, metadata, latency,
     and explicit non-production fallback behavior.
-- [ ] **Task 11 — Forecast evidence derivation**
+- [x] **Task 11 — Forecast evidence derivation**
   - Deterministically derive direction, baseline comparison, retention, decay,
     uncertainty, and supported sell-in/sell-out divergence with traceability.
-- [ ] **Task 12 — Kamal forecast-adapter review gate**
+- [ ] **Task 12 — Project-lead forecast-adapter review gate** (`AWAITING_APPROVAL`)
   - Present sample inputs/outputs, failure and uncertainty cases, and adapter
     replacement proof; obtain approval before Task 13.
 - [ ] **Task 13 — FMCG interpretation engine**

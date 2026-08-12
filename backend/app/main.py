@@ -11,6 +11,7 @@ from app.api.auth import router as auth_router
 from app.api.baselines import router as baselines_router
 from app.api.datasets import router as datasets_router
 from app.api.diagnostic_cases import router as diagnostic_cases_router
+from app.api.forecast_runs import router as forecast_runs_router
 from app.config import get_settings
 from app.database import SessionLocal
 from app.domain.auth import UserRole
@@ -56,6 +57,7 @@ app.include_router(auth_router)
 app.include_router(baselines_router)
 app.include_router(datasets_router)
 app.include_router(diagnostic_cases_router)
+app.include_router(forecast_runs_router)
 
 
 @app.get("/health", tags=["operations"])

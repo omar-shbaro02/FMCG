@@ -3,7 +3,7 @@
 Last updated: 2026-08-10  
 Repository branch: `main`  
 Last committed revision: `6cdf75e Initial commit`  
-Current implementation phase: Task 10 — TimesFM Adapter
+Current implementation phase: Task 12 — Forecast Adapter Review Gate
 
 ## Read this first
 
@@ -123,8 +123,8 @@ Current test state: **15 backend tests pass**.
 
 ## Exact stopping point
 
-Tasks 4–9 are complete. The next ordered task is Task 10 — the isolated TimesFM
-adapter. Tasks 7–9 pass as part of the 34-test backend suite.
+Tasks 4–11 are complete. Task 12 is a mandatory project-lead review gate; the
+packet is `docs/forecast-adapter-review.md`. Do not begin Task 13 without approval.
 
 ## First actions on the Legion
 
@@ -291,11 +291,9 @@ When these pass, change Task 4 to `COMPLETE` in `IMPLEMENTATION_TASKS.md` and ap
 
 ## Next implementation task
 
-Start **Task 10 — TimesFM Adapter**. Keep every TimesFM import and provider field
-inside `backend/app/adapters/forecast/`; lazy-load model weights; return only the
-normalized contract; cover model unavailable, input length, malformed data,
-timeout, memory, and non-finite output with structured errors; record metadata
-and latency; never silently fall back to mock.
+Review **Task 12 — Forecast Adapter** using `docs/forecast-adapter-review.md`.
+Confirm the input/output structure, evidence usability, uncertainty honesty,
+failure behavior, and adapter replaceability before approving Task 13.
 
 ## Known issues and deferred work
 
@@ -328,5 +326,4 @@ Do not discard these changes with `git reset --hard` or checkout commands.
 
 The Legion continuation point is:
 
-> Complete and contract-test Task 10, then build deterministic forecast evidence
-> derivation in Task 11 before stopping at the Task 12 human review gate.
+> Obtain explicit Task 12 approval, record it, then start Task 13 interpretation.

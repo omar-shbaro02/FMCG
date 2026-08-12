@@ -128,6 +128,14 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
             json={"method": "RECENT_PRE_PROMO_AVERAGE", "recent_weeks": 4},
             headers=headers,
         )
+        forecast_run = client.post(
+            f"/api/diagnostic-cases/{case_id}/forecast-runs",
+            headers=headers,
+        )
+        forecast_evidence = client.get(
+            f"/api/diagnostic-cases/{case_id}/forecast-evidence",
+            headers=headers,
+        )
         listed = client.get("/api/diagnostic-cases?page=1&page_size=10", headers=headers)
 
     assert patched.status_code == 200
@@ -142,6 +150,11 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
     assert baseline.status_code == 201
     assert baseline.json()["baseline_method"] == "RECENT_PRE_PROMO_AVERAGE"
     assert len(baseline.json()["baseline_values_json"]["output_values"]) == 6
+    assert forecast_run.status_code == 201
+    assert forecast_run.json()["run_status"] == "COMPLETED"
+    assert forecast_run.json()["adapter_name"] == "mock"
+    assert forecast_evidence.status_code == 200
+    assert forecast_evidence.json()["forecast_horizon"] == 6
     assert listed.status_code == 200
     assert any(item["id"] == case_id for item in listed.json()["items"])
     with SessionLocal() as session:
