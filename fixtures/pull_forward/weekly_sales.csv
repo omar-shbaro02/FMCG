@@ -1,0 +1,27 @@
+week_start_date,sku_id,brand,category,channel,region,sell_out_units,sell_in_units,promo_flag,discount_depth,net_sales_value,gross_sales_value,gross_margin,stock_on_hand,out_of_stock_flag,returns_units
+2025-01-06,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.605,101.597,False,0.25,996.05,1195.26,298.815,200,False,0
+2025-01-13,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.898,101.896,False,0.25,998.98,1198.776,299.694,200,False,0
+2025-01-20,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.873,101.87,False,0.25,998.73,1198.476,299.619,200,False,0
+2025-01-27,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,101.843,103.88,False,0.25,1018.43,1222.116,305.529,200,False,0
+2025-02-03,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,100.554,102.565,False,0.25,1005.54,1206.648,301.662,200,False,0
+2025-02-10,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,98.779,100.755,False,0.25,987.79,1185.348,296.337,200,False,0
+2025-02-17,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,101.197,103.221,False,0.25,1011.97,1214.364,303.591,200,False,0
+2025-02-24,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,98.572,100.543,False,0.25,985.72,1182.864,295.716,200,False,0
+2025-03-03,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.566,101.557,False,0.25,995.66,1194.792,298.698,200,False,0
+2025-03-10,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,101.225,103.249,False,0.25,1012.25,1214.7,303.675,200,False,0
+2025-03-17,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.641,101.634,False,0.25,996.41,1195.692,298.923,200,False,0
+2025-03-24,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,99.384,101.372,False,0.25,993.84,1192.608,298.152,200,False,0
+2025-03-31,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,178.601,182.173,True,0.25,1786.01,2143.212,535.803,200,False,0
+2025-04-07,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,180.302,183.908,True,0.25,1803.02,2163.624,540.906,200,False,0
+2025-04-14,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,70.711,72.125,False,0.25,707.11,848.532,212.133,200,False,0
+2025-04-21,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,71.606,73.038,False,0.25,716.06,859.272,214.818,200,False,0
+2025-04-28,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,69.753,71.148,False,0.25,697.53,837.036,209.259,200,False,0
+2025-05-05,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,69.282,70.668,False,0.25,692.82,831.384,207.846,200,False,0
+2025-05-12,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,71.652,73.085,False,0.25,716.52,859.824,214.956,200,False,0
+2025-05-19,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,97.355,99.302,False,0.25,973.55,1168.26,292.065,200,False,0
+2025-05-26,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,97.677,99.631,False,0.25,976.77,1172.124,293.031,200,False,0
+2025-06-02,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,96.834,98.771,False,0.25,968.34,1162.008,290.502,200,False,0
+2025-06-09,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,96.626,98.559,False,0.25,966.26,1159.512,289.878,200,False,0
+2025-06-16,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,95.41,97.318,False,0.25,954.1,1144.92,286.23,200,False,0
+2025-06-23,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,95.724,97.638,False,0.25,957.24,1148.688,287.172,200,False,0
+2025-06-30,SKU-1,Synthetic Brand,Synthetic Beverages,MODERN_TRADE,NORTH,94.373,96.26,False,0.25,943.73,1132.476,283.119,200,False,0

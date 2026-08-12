@@ -3,7 +3,7 @@
 Last updated: 2026-08-10  
 Repository branch: `main`  
 Last committed revision: `6cdf75e Initial commit`  
-Current implementation phase: Task 4 — Dataset Upload
+Current implementation phase: Task 7 — Case Management
 
 ## Read this first
 
@@ -123,14 +123,9 @@ Current test state: **15 backend tests pass**.
 
 ## Exact stopping point
 
-The first container upload smoke test returned HTTP 500 because the non-root API user could not create `/app/var/uploads`.
-
-The source has already been corrected:
-
-- `backend/Dockerfile` now creates `/app/var/uploads` and grants ownership to `appuser`.
-- `docker-compose.yml` now mounts the named `uploads_data` volume at `/app/var/uploads`.
-
-The corrected API image has **not yet been rebuilt and smoke-tested**. Do this first on the Legion. Task 4 must not be marked complete until it passes.
+Tasks 4–6 were completed and verified on 2026-08-12 using rootless Podman with
+the production Python 3.12 Dockerfile and PostgreSQL 16. The next ordered task is
+Task 7 — case management.
 
 ## First actions on the Legion
 
@@ -297,25 +292,9 @@ When these pass, change Task 4 to `COMPLETE` in `IMPLEMENTATION_TASKS.md` and ap
 
 ## Next implementation task
 
-After Task 4 passes, start **Task 5 — Data Validation Engine**. Do not skip ahead.
-
-Required Task 5 scope:
-
-- Required-column validation.
-- Date and chronology checks.
-- Exact grain duplicate detection.
-- Type and range validation.
-- Boolean and discount normalization.
-- Currency and gross-margin representation declarations.
-- Missing values and missing weeks.
-- Sparse-series and minimum-history forecast viability.
-- Out-of-stock, returns, and sell-in/sell-out distortion notes.
-- No silently discarded rows.
-- Transformation log.
-- Structured validation report persisted to the dataset and issue tables.
-- Critical issues must block analysis; warnings must remain visible.
-
-Run relevant tests, document changed files and assumptions, and confirm product boundaries before Task 6.
+Start **Task 7 — Case Management**. Implement typed create/update/list/view,
+legal status transitions, validated-dataset and scope checks, required promotion
+window, 4–8 week horizon, series-grain existence, and readiness validation.
 
 ## Known issues and deferred work
 
@@ -324,7 +303,8 @@ Run relevant tests, document changed files and assumptions, and confirm product 
 - Pytest emits a Starlette warning about `httpx`/`TestClient`; tests still pass.
 - The Compose `worker` is intentionally a placeholder and exits until bounded job processing is implemented.
 - TimesFM is not implemented. `FORECAST_ADAPTER=mock` is the only valid current setting.
-- Dataset validation and ingestion into `weekly_fmcg_sales` are not implemented yet.
+- Ingestion of validated rows into `weekly_fmcg_sales` is deferred to the case/data
+  workflow; validation itself is complete.
 - The frontend currently contains only the compliant product landing foundation, not the full workflow.
 - The legacy top-level documentation files still describe the old prototype and must be rewritten during documentation work. Treat `docs/product-canon.md` and `IMPLEMENTATION_TASKS.md` as authoritative.
 - Uploaded local files use a named Docker volume and are not transferred through Git.
@@ -347,4 +327,5 @@ Do not discard these changes with `git reset --hard` or checkout commands.
 
 The Legion continuation point is:
 
-> Rebuild the corrected API container, prove Task 4 upload + audit + duplicate behavior end to end, record Task 4 complete, then begin Task 5 in the ordered specification.
+> Build Task 7 case management with readiness and transition tests, record it
+> complete, then begin Task 8 baseline calculations.

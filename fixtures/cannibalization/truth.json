@@ -1,0 +1,12 @@
+{
+  "scenario": "cannibalization",
+  "synthetic": true,
+  "seed": 1106,
+  "expected_primary_class": "CANNIBALIZATION_RISK",
+  "expected_priority": "INVESTIGATION_RECOMMENDED",
+  "evidence_confidence": "STRONG",
+  "truth": "Promoted SKU uplift coincides with a material adjacent-SKU decline.",
+  "row_count": 52,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

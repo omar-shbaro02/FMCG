@@ -1,0 +1,12 @@
+{
+  "scenario": "insufficient_evidence",
+  "synthetic": true,
+  "seed": 1108,
+  "expected_primary_class": null,
+  "expected_priority": "INVESTIGATION_RECOMMENDED",
+  "evidence_confidence": "INSUFFICIENT",
+  "truth": "Only six non-promotion weeks exist; no confident classification is permitted.",
+  "row_count": 6,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

@@ -23,9 +23,9 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 1 | Initialize repository | COMPLETE | Full Compose stack and local checks pass on 2026-08-10. |
 | 2 | Authentication and roles | COMPLETE | Signed authentication and RBAC pass 6 backend tests. |
 | 3 | Database and migrations | COMPLETE | PostgreSQL migration upgrade/downgrade/reapply and schema-drift checks pass. |
-| 4 | Dataset upload | IN PROGRESS | Implementing safe CSV/XLSX storage, metadata, and audit events. |
-| 5 | Data validation engine | BLOCKED | Not implemented. |
-| 6 | Demo data generator | BLOCKED | Required deterministic scenarios absent. |
+| 4 | Dataset upload | COMPLETE | Non-root container upload, persistence, audit, volume, and duplicate smoke checks pass. |
+| 5 | Data validation engine | COMPLETE | Structured CSV/XLSX validation, persistence, audit, and 20-test suite pass. |
+| 6 | Demo data generator | COMPLETE | Eight seeded synthetic scenarios and machine-readable truth pass tests. |
 | 7 | Case management | BLOCKED | Legacy promotion cases do not meet the diagnostic contract. |
 | 8 | Baseline engine | BLOCKED | Not implemented. |
 | 9 | Forecast Adapter interface | BLOCKED | Not implemented. |
@@ -96,4 +96,65 @@ For every task, append a dated record containing:
 - Files changed: database configuration, persistence entities/repository, Alembic environment and migration, container migration startup, Compose database port, schema tests.
 - Unresolved assumptions: none for the frozen core schema; later tasks may add backward-compatible fields through new migrations.
 - Boundary check: preserved; persistence records evidence and human decisions only.
+- Acceptance: passed.
+
+## Task 4 completion record — 2026-08-12
+
+- Completed: safe admin-only CSV/XLSX upload, extension/MIME/content validation,
+  configurable size limit, simple-filename enforcement, SHA-256 content-addressed
+  storage, explicit duplicate rejection, metadata persistence, upload audit, and a
+  persistent non-root upload volume.
+- Tests: upload/storage unit tests pass within the 20-test backend suite. A rebuilt
+  Python 3.12 non-root API container returned HTTP 201 for the first upload and
+  HTTP 409 for identical content; PostgreSQL contained one dataset and one upload
+  audit event; the uploaded file was owned and readable by `appuser`; API health
+  remained green.
+- Files: dataset upload API/service/schema/tests, API container, Compose upload
+  volume, settings, and smoke fixture.
+- Unresolved assumptions: malware scanning remains an explicit integration point
+  for security hardening; local storage is the development implementation.
+- Boundary check: preserved; upload stores FMCG diagnostic evidence only.
+- Acceptance: passed.
+
+## Task 5 completion record — 2026-08-12
+
+- Completed: identical CSV/XLSX validation contract; required schema, missing
+  values, strict dates, chronology, numeric/boolean/range checks, exact series
+  grain duplicates, discount-scale normalization/mixing rejection, currency,
+  stock-unit and gross-margin declarations, missing weeks, configurable history
+  and promotion viability, forecast eligible/ineligible series, out-of-stock,
+  returns and sell-in/sell-out distortion notes, transformation log, explicit
+  valid/rejected counts, persisted issues/summary, validation audit, and protected
+  POST/GET report endpoints.
+- Tests: Ruff, Ruff format, and strict MyPy pass; Pytest passes 20 tests. API smoke
+  validation returned `VALID_WITH_WARNINGS`, persisted status/dates/row count and
+  issue/audit records, and the stored report round-tripped through the GET API.
+- Files: data-quality domain, dataset request/response schemas and API, settings,
+  `.env.example`, tests, task documentation, and local-tool ignore rule.
+- Unresolved assumptions: safe default minimum history is 12 weekly observations;
+  deployment may configure 4–104. Discount percentages above 1 are normalized to
+  fractions; mixed scales are critical. Currency uses a required 3-letter code.
+- Boundary check: preserved; validation surfaces uncertainty and distortion but
+  makes no commercial classification or action.
+- Acceptance: passed. Critical errors yield `INVALID`; warnings remain visible as
+  `VALID_WITH_WARNINGS`; no invalid row is silently discarded.
+
+## Task 6 completion record — 2026-08-12
+
+- Completed: deterministic generator and synthetic weekly datasets for healthy
+  growth, temporary uplift, pull-forward, loading risk, discount dependency,
+  cannibalization, margin/value-quality risk, and insufficient evidence. Every
+  scenario has a fixed seed and machine-readable truth containing the expected
+  later-stage class, priority, confidence, grain, and commercial rationale.
+- Tests: generation is byte-for-byte deterministic; all eight scenarios pass the
+  Task 5 schema without critical errors; supported scenarios meet viability and
+  insufficient evidence remains explicitly ineligible. Ruff, format, strict
+  MyPy, and all 22 backend tests pass on Python 3.12 with PostgreSQL.
+- Files: `scripts/seed_demo_data.py`, scenario CSV/truth fixtures,
+  `fixtures/README.md`, and demo-data tests.
+- Unresolved assumptions: synthetic currency is USD, stock is units, and gross
+  margin is an amount. Later classifier thresholds must be versioned and tested
+  against, but must never read, the truth labels at runtime.
+- Boundary check: preserved; fixtures model only frozen FMCG diagnostic evidence,
+  contain no real client data, and execute no action.
 - Acceptance: passed.

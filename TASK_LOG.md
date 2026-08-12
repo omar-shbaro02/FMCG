@@ -117,3 +117,18 @@ agent. No commercial action, generic dashboard, or TimesFM coupling was added.
 Task 1 cannot be marked complete until the frontend and full Compose stack are
 started and tested on a host with Node.js and Docker. Per the build brief, Task 2
 has not started.
+
+## Continuation reconciliation — 2026-08-12
+
+Mac work in commit `a70ed00` superseded the earlier Task 1 stopping note above.
+The authoritative acceptance details are in `IMPLEMENTATION_TASKS.md`:
+
+- Tasks 1–3 were completed and verified on the Mac.
+- Task 4's final non-root volume smoke gate passed on 2026-08-12.
+- Task 5's implementation, 20-test suite, and persistence/API smoke gate passed
+  on 2026-08-12.
+- Task 6 is the next ordered task.
+
+Legacy top-level documents describing a six-agent Trade Promotion Distortion
+Intelligence product are historical only and conflict with the frozen canon.
+They are not evidence of completion for this application.

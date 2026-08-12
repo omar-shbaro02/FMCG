@@ -1,0 +1,12 @@
+{
+  "scenario": "discount_dependency",
+  "synthetic": true,
+  "seed": 1105,
+  "expected_primary_class": "DISCOUNT_DEPENDENCY_RISK",
+  "expected_priority": "INVESTIGATION_RECOMMENDED",
+  "evidence_confidence": "STRONG",
+  "truth": "Movement recovers only during repeated high-discount promotion windows.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

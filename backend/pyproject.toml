@@ -49,5 +49,9 @@ strict = true
 explicit_package_bases = true
 plugins = ["pydantic.mypy"]
 
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*"]
+ignore_missing_imports = true
+
 [tool.setuptools.packages.find]
 include = ["app*"]

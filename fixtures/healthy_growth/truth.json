@@ -1,0 +1,12 @@
+{
+  "scenario": "healthy_growth",
+  "synthetic": true,
+  "seed": 1101,
+  "expected_primary_class": "HEALTHY_GROWTH_CANDIDATE",
+  "expected_priority": "HEALTHY_CANDIDATE",
+  "evidence_confidence": "STRONG",
+  "truth": "Promotion uplift retains a material post-promotion baseline improvement.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

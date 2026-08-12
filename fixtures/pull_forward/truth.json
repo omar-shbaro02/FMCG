@@ -1,0 +1,12 @@
+{
+  "scenario": "pull_forward",
+  "synthetic": true,
+  "seed": 1103,
+  "expected_primary_class": "PULL_FORWARD_RISK",
+  "expected_priority": "INVESTIGATION_RECOMMENDED",
+  "evidence_confidence": "STRONG",
+  "truth": "Large promotion uplift is followed by several materially below-baseline weeks.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

@@ -1,0 +1,12 @@
+{
+  "scenario": "margin_quality_risk",
+  "synthetic": true,
+  "seed": 1107,
+  "expected_primary_class": "MARGIN_VALUE_QUALITY_RISK",
+  "expected_priority": "P1_COMMERCIAL_REVIEW",
+  "evidence_confidence": "STRONG",
+  "truth": "Promotion volume grows while unit net value and gross margin compress sharply.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

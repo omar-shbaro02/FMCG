@@ -24,30 +24,30 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
   - [x] Freeze executive output contract and review gates.
   - [x] Verify FMCG-only scope and absence of strategy drift.
   - [x] Obtain explicit approval from the project lead acting as approval owner.
-- [ ] **Task 1 — Initialize repository** (`IN_PROGRESS`)
+- [x] **Task 1 — Initialize repository**
   - Create the prescribed repository structure, Next.js frontend, FastAPI
     backend, Docker Compose environment, lint/format/type/test tooling, and CI.
   - Verify clean install; frontend, API, and database startup; test execution.
-- [ ] **Task 2 — Authentication and roles**
+- [x] **Task 2 — Authentication and roles**
   - Implement users, secure authentication, RBAC, protected routes, and audit
     actor attribution.
   - Test unauthorized rejection and Commercial Director/reviewer permissions.
-- [ ] **Task 3 — Database and migrations**
+- [x] **Task 3 — Database and migrations**
   - Implement all core tables, UUID keys, UTC timestamps, enums, references,
     grain constraints, and fixed-precision financial types.
   - Test clean upgrade and development downgrade.
-- [ ] **Task 4 — Dataset upload**
+- [x] **Task 4 — Dataset upload**
   - Implement safe CSV/XLSX upload, local/S3-compatible storage boundary,
     metadata, ingestion job, duplicate behavior, and upload audit.
-- [ ] **Task 5 — Data validation engine**
+- [x] **Task 5 — Data validation engine**
   - Implement schema, type, grain, missing-week, duplicate, range, chronology,
     transformation-log, distortion, and forecast-viability rules.
   - Ensure critical errors block analysis and no rows disappear silently.
-- [ ] **Task 6 — Demo data generator**
+- [x] **Task 6 — Demo data generator**
   - Add deterministic synthetic fixtures for healthy growth, temporary uplift,
     pull-forward, loading, discount dependency, cannibalization, margin risk,
     and insufficient evidence; document scenario truth.
-- [ ] **Task 7 — Case management**
+- [ ] **Task 7 — Case management** (`NEXT`)
   - Implement create/update/list/view, scope, promotion window, legal status
     transitions, series-grain enforcement, and readiness validation.
 - [ ] **Task 8 — Baseline engine**

@@ -1,0 +1,12 @@
+{
+  "scenario": "temporary_uplift",
+  "synthetic": true,
+  "seed": 1102,
+  "expected_primary_class": "TEMPORARY_UPLIFT",
+  "expected_priority": "INVESTIGATION_RECOMMENDED",
+  "evidence_confidence": "STRONG",
+  "truth": "Promotion uplift returns promptly to the pre-promotion baseline.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}

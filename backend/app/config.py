@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     forecast_adapter: str = "mock"
     upload_directory: str = "./var/uploads"
     max_upload_bytes: int = Field(default=20 * 1024 * 1024, ge=1024)
+    minimum_history_weeks: int = Field(default=12, ge=4, le=104)
 
 
 @lru_cache

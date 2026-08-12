@@ -1,0 +1,12 @@
+{
+  "scenario": "loading_risk",
+  "synthetic": true,
+  "seed": 1104,
+  "expected_primary_class": "LOADING_RISK",
+  "expected_priority": "P1_COMMERCIAL_REVIEW",
+  "evidence_confidence": "STRONG",
+  "truth": "Sell-in materially exceeds sell-out while channel stock accumulates.",
+  "row_count": 26,
+  "series_grain": "sku_id + channel + region",
+  "time_grain": "weekly"
+}
