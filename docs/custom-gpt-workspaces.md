@@ -44,3 +44,7 @@ For the complete combined Section 24 instructions, input/output schemas,
 conversation starters, knowledge-file mapping, and creation checklist, use
 `custom-gpt-creation-pack.md` instead of assembling the builder configuration
 manually.
+
+These workspaces are now also available as project-scoped, read-only Codex
+custom agents. See `codex-custom-agents.md` for their names, model assignments,
+and invocation examples. ChatGPT Custom GPT publishing is therefore optional.
