@@ -9,3 +9,5 @@ def test_health_endpoint() -> None:
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
     assert response.json()["service"] == "fmcg-growth-quality-diagnostic-api"
+    assert response.headers["x-content-type-options"] == "nosniff"
+    assert response.headers["x-frame-options"] == "DENY"

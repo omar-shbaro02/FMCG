@@ -1,4 +1,4 @@
-.PHONY: install dev build lint typecheck test compose-up compose-down
+.PHONY: install dev build lint typecheck test check compose-up compose-down
 
 install:
 	npm ci
@@ -6,22 +6,24 @@ install:
 	python3 -m pip install -e './backend[dev]'
 
 dev:
-	npm run dev
+	npm --prefix frontend run dev
 
 build:
-	npm run build
+	npm --prefix frontend run build
 
 lint:
-	npm run lint
+	npm --prefix frontend run lint
 	cd backend && ruff check app tests
 
 typecheck:
-	npm run typecheck
+	npm --prefix frontend run typecheck
 	cd backend && mypy app
 
 test:
-	npm test
+	npm --prefix frontend test
 	cd backend && pytest
+
+check: lint typecheck test build
 
 compose-up:
 	docker compose up --build

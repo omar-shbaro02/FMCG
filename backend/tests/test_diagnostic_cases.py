@@ -130,7 +130,11 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
         )
         forecast_run = client.post(
             f"/api/diagnostic-cases/{case_id}/forecast-runs",
-            headers=headers,
+            headers={**headers, "Idempotency-Key": "forecast-test-1"},
+        )
+        forecast_retry = client.post(
+            f"/api/diagnostic-cases/{case_id}/forecast-runs",
+            headers={**headers, "Idempotency-Key": "forecast-test-1"},
         )
         forecast_evidence = client.get(
             f"/api/diagnostic-cases/{case_id}/forecast-evidence",
@@ -138,7 +142,11 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
         )
         decision_intelligence = client.post(
             f"/api/diagnostic-cases/{case_id}/decision-intelligence",
-            headers=headers,
+            headers={**headers, "Idempotency-Key": "decision-test-1"},
+        )
+        decision_retry = client.post(
+            f"/api/diagnostic-cases/{case_id}/decision-intelligence",
+            headers={**headers, "Idempotency-Key": "decision-test-1"},
         )
         latest_output = client.get(
             f"/api/diagnostic-cases/{case_id}/decision-intelligence/latest",
@@ -199,10 +207,12 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
     assert forecast_run.status_code == 201
     assert forecast_run.json()["run_status"] == "COMPLETED"
     assert forecast_run.json()["adapter_name"] == "mock"
+    assert forecast_retry.json()["id"] == forecast_run.json()["id"]
     assert forecast_evidence.status_code == 200
     assert forecast_evidence.json()["forecast_horizon"] == 6
     assert decision_intelligence.status_code == 201
     assert decision_intelligence.json()["human_review_status"] == "PENDING"
+    assert decision_retry.json()["id"] == decision_intelligence.json()["id"]
     assert len(decision_intelligence.json()["output_json"]["decision_simulation"]) == 7
     assert latest_output.status_code == 200
     assert latest_output.json()["id"] == decision_intelligence.json()["id"]

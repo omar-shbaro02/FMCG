@@ -21,6 +21,7 @@ from app.database import SessionLocal
 from app.domain.auth import UserRole
 from app.models.entities import User
 from app.security import password_hash
+from app.security_middleware import RateLimitMiddleware, SecurityHeadersMiddleware
 
 settings = get_settings()
 
@@ -55,6 +56,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
     allow_headers=["Authorization", "Content-Type", "X-Correlation-ID"],
+)
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(
+    RateLimitMiddleware,
+    requests=settings.rate_limit_requests,
+    window_seconds=settings.rate_limit_window_seconds,
 )
 
 app.include_router(auth_router)

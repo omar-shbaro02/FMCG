@@ -1,19 +1,31 @@
-# Local deployment guide
+# Deployment guide
 
-## Prerequisites
+## Environment checklist
 
-- Docker Engine with Compose v2, or Python 3.12+ and Node.js 22+
-- Git
+- `ENVIRONMENT=production`
+- Unique `SECRET_KEY` of at least 32 characters
+- Unique bootstrap credential or disabled/bootstrap replacement process
+- Managed PostgreSQL and Redis URLs with TLS
+- Exact HTTPS `FRONTEND_URL` and API origin
+- Persistent upload storage, encryption, retention, malware scanner
+- `FORECAST_ADAPTER=timesfm` only after model provenance and capacity validation
+- Edge TLS, distributed rate limiting, request-size limit, logs/metrics/alerts
+- Tested backup destination and restore credentials
 
-## Docker Compose
+## Release
 
-Copy `.env.example` to `.env`, replace `SECRET_KEY`, then run `make dev`.
-The frontend is served at `http://localhost:3000`; the API and OpenAPI document
-are at `http://localhost:8000` and `/docs`. PostgreSQL and Redis stay inside the
-Compose network. Do not use the development credentials in production.
+Build immutable images, run dependency/secret scans and all checks, migrate a
+staging database, start API, then frontend. Run `scripts/smoke-test.sh <api-url>
+<frontend-url>`. Deploy migration before compatible application code; never run
+two incompatible schemas. Example reverse proxy is `deploy/nginx.conf`.
 
-## Native development
+## Backup, restore, rollback
 
-Run `make install`, then run `make api`, `make worker`, and `make frontend` in
-separate terminals. Native PostgreSQL/Redis connection URLs must be supplied in
-`.env`. Task 3 will add database migrations.
+Take a database backup before migration. `scripts/backup.sh` and
+`scripts/restore.sh` require `DATABASE_URL`. To roll back, stop writes, restore
+the pre-release backup if the migration is not backward-compatible, deploy the
+previous immutable image tags, verify `/health`, login, case retrieval, and one
+draft export. Preserve audit records and incident notes.
+
+The included worker command truthfully reports unconfigured until distributed
+jobs are implemented; do not advertise asynchronous processing in production.

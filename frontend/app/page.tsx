@@ -1,7 +1,6 @@
 "use client";
 
 /* API output sections are heterogeneous, schema-versioned JSON documents. */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
   ArrowRight,
@@ -26,7 +25,7 @@ import {
 } from "lucide-react";
 import React, { FormEvent, useEffect, useMemo, useState } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "";
 
 type User = { email: string; display_name: string; role: string };
 type Case = {
@@ -116,7 +115,7 @@ export default function HomePage() {
     finally { setBusy(false); }
   }
 
-  useEffect(() => { if (selected && token) void loadCaseData(selected); }, [selected?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (selected && token) void loadCaseData(selected); }, [selected?.id]); // eslint-disable-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
 
   if (!token) return <Login onSubmit={login} busy={busy} error={error} />;
 
@@ -145,7 +144,7 @@ export default function HomePage() {
           {view === "investigation" && <InvestigationView output={output}/>}
           {view === "simulations" && <SimulationsView output={output}/>}
           {view === "brief" && <BriefView output={output}/>}
-          {view === "review" && <ReviewView output={output}/>}
+          {view === "review" && <ReviewView output={output} selected={selected} token={token} onReviewed={async () => { if (selected) await loadCaseData(selected); await loadCases(); setNotice("Human review was recorded and audited."); }}/>}
           {view === "admin" && <AdminView user={user} output={output}/>}
         </div>
       </main>
@@ -186,6 +185,6 @@ function SimulationsView({output}:{output:Output|null}) { const items=output?.ou
 
 function BriefView({output}:{output:Output|null}) { const d=output?.output_json; return <><PageHead eyebrow="Step 8 of 10" title="Executive brief" intro="Leadership-ready evidence and interpretation, visibly marked until a human completes review."/>{!d?<Empty title="Executive brief not generated"/>:<article className="brief"><header><div><p>VAI · FMCG growth quality</p><h2>Executive decision intelligence</h2><span>Generated {new Date(output!.generated_at).toLocaleString()}</span></div><Status tone="amber">Draft · Human review pending</Status></header><section><b>01</b><div><h3>Growth signal summary</h3><p>{d.growth_signal_summary}</p></div></section><section><b>02</b><div><h3>Growth-quality judgment</h3><p>{label(d.risk_classification.primary || "No supported risk class")}</p><div className="tag-list">{d.risk_classification.secondary.map((x:string)=><span key={x}>{label(x)}</span>)}</div></div></section><section><b>03</b><div><h3>Priority & ownership</h3><div className="brief-grid"><span><small>Priority</small>{label(d.priority)}</span><span><small>Human owner</small>{label(d.recommended_human_owner)}</span><span><small>Confidence</small>{label(d.evidence_confidence)}</span><span><small>Decision affected</small>{label(d.decision_affected)}</span></div></div></section><section><b>04</b><div><h3>Next verification actions</h3><ol>{d.next_verification_actions.map((x:string)=><li key={x}>{x}</li>)}</ol></div></section><footer>{d.final_human_review_statement}</footer></article>}</> }
 
-function ReviewView({output}:{output:Output|null}) { return <><PageHead eyebrow="Step 9 of 10" title="Human review" intro="Validate, correct, request evidence, or reject—without overwriting the original draft."/>{!output?<Empty title="Nothing is ready for review"/>:<div className="two-col review-layout"><section className="panel"><div className="review-state"><div><ClipboardCheck/><span>Current review status</span><b>{label(output.human_review_status)}</b></div></div><h3>Review controls arrive in Task 20</h3><p>The draft is preserved and readable now. Human decisions, corrections, comments, and evidence requests will be persisted and audited in the next task.</p><div className="disabled-actions"><button disabled>Validate</button><button disabled>Validate with changes</button><button disabled>Request more evidence</button><button disabled>Reject</button></div></section><section className="panel control-boundary"><ShieldCheck/><h3>Control boundary</h3><p>No reviewed decision exists yet. This draft cannot trigger budget, pricing, replenishment, customer communication, or any other commercial execution.</p></section></div>}</> }
+function ReviewView({output,selected,token,onReviewed}:{output:Output|null;selected:Case|null;token:string;onReviewed:()=>Promise<void>}) { const [reviewError,setReviewError]=useState(""); async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(!selected)return;const data=new FormData(e.currentTarget);const reviewStatus=String(data.get("review_status"));const comments=String(data.get("reviewer_comments")||"");const evidence=String(data.get("evidence_request")||"");try{await request(`/api/diagnostic-cases/${selected.id}/reviews`,token,{method:"POST",body:JSON.stringify({review_status:reviewStatus,validated_risk_class:data.get("validated_risk_class")||null,reviewer_comments:comments||null,requested_evidence:evidence?[{evidence,reason:comments||"Required before commercial decision",owner:"COMMERCIAL_DIRECTOR"}]:[],final_decision_note:data.get("final_decision_note")||null})});await onReviewed();}catch(err){setReviewError(err instanceof Error?err.message:"Review failed");}} return <><PageHead eyebrow="Step 9 of 10" title="Human review" intro="Validate, correct, request evidence, or reject—without overwriting the original draft."/>{!output?<Empty title="Nothing is ready for review"/>:<div className="two-col review-layout"><form className="panel" onSubmit={submit}><div className="review-state"><div><ClipboardCheck/><span>Current review status</span><b>{label(output.human_review_status)}</b></div></div>{reviewError&&<div className="form-error">{reviewError}</div>}<label>Review decision<select name="review_status" defaultValue="VALIDATED"><option value="VALIDATED">Validate</option><option value="VALIDATED_WITH_CHANGES">Validate with changes</option><option value="MORE_EVIDENCE_REQUIRED">Request more evidence</option><option value="REJECTED">Reject</option></select></label><label>Corrected classification (when changed)<input name="validated_risk_class" placeholder="TEMPORARY_UPLIFT"/></label><label>Reviewer comments<textarea name="reviewer_comments" placeholder="State the evidence behind the human judgment."/></label><label>Specific evidence request<input name="evidence_request" placeholder="Required when requesting more evidence"/></label><label>Final leadership note<textarea name="final_decision_note" placeholder="Human note; no action is executed here."/></label><button className="primary wide"><UserRoundCheck/>Record attributed review</button></form><section className="panel control-boundary"><ShieldCheck/><h3>Control boundary</h3><p>This form records a human judgment and audit trail. It cannot trigger budget, pricing, replenishment, customer communication, or any other commercial execution.</p></section></div>}</> }
 
 function AdminView({user,output}:{user:User|null;output:Output|null}) { return <><PageHead eyebrow="Step 10 of 10" title="Admin & system control" intro="Operational metadata without secrets or raw sensitive payloads."/><div className="metric-row"><div><span>API</span><strong className="word green">Healthy</strong><small>Connected on port 8000</small></div><div><span>Classifier</span><strong className="word">1.0.0</strong><small>Versioned deterministic rules</small></div><div><span>Output</span><strong className="word">{output?.output_version.split("/")[1]||"1.0.0"}</strong><small>Frozen 12-section contract</small></div><div><span>Forecast</span><strong className="word">Mock</strong><small>Replaceable adapter boundary</small></div></div><div className="two-col"><section className="panel"><h3>Current access</h3><div className="admin-row"><div className="avatar">{user?.display_name?.[0]}</div><div><b>{user?.display_name}</b><span>{user?.email}</span></div><Status tone="green">{label(user?.role)}</Status></div></section><section className="panel"><h3>System boundaries</h3>{["No autonomous agents","No execution controls","Human review mandatory","Evidence keys traceable"].map(x=><div className="boundary" key={x}><CheckCircle2/>{x}</div>)}</section></div></> }

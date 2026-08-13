@@ -2,7 +2,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -47,7 +47,18 @@ def create_forecast_run(
     ],
     session: Annotated[Session, Depends(get_db)],
     settings: Annotated[Settings, Depends(get_settings)],
+    idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None,
 ) -> ForecastRun:
+    if idempotency_key:
+        existing_event = session.scalar(
+            select(AuditEvent).where(
+                AuditEvent.correlation_id == f"forecast:{case_id}:{idempotency_key}"
+            )
+        )
+        if existing_event:
+            existing_run = session.get(ForecastRun, existing_event.entity_id)
+            if existing_run:
+                return existing_run
     case = session.get(DiagnosticCase, case_id)
     if case is None:
         raise HTTPException(
@@ -183,7 +194,9 @@ def create_forecast_run(
             entity_id=run.id,
             before_json=None,
             after_json={"case_id": str(case.id), "adapter": metadata, "status": "COMPLETED"},
-            correlation_id=str(uuid.uuid4()),
+            correlation_id=(
+                f"forecast:{case.id}:{idempotency_key}" if idempotency_key else str(uuid.uuid4())
+            ),
         )
     )
     session.commit()

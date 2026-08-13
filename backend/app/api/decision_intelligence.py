@@ -2,7 +2,7 @@ import uuid
 from dataclasses import asdict
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -53,7 +53,18 @@ def create_decision_intelligence(
         Depends(require_roles(UserRole.ADMIN, UserRole.COMMERCIAL_DIRECTOR)),
     ],
     session: Annotated[Session, Depends(get_db)],
+    idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None,
 ) -> ExecutiveOutput:
+    if idempotency_key:
+        existing_event = session.scalar(
+            select(AuditEvent).where(
+                AuditEvent.correlation_id == f"decision:{case_id}:{idempotency_key}"
+            )
+        )
+        if existing_event:
+            existing_output = session.get(ExecutiveOutput, existing_event.entity_id)
+            if existing_output:
+                return existing_output
     case = session.get(DiagnosticCase, case_id)
     if case is None:
         raise HTTPException(status_code=404, detail="Diagnostic case not found")
@@ -164,7 +175,9 @@ def create_decision_intelligence(
                 "rule_version": classification.rule_version,
                 "review_status": ReviewStatus.PENDING.value,
             },
-            correlation_id=str(uuid.uuid4()),
+            correlation_id=(
+                f"decision:{case.id}:{idempotency_key}" if idempotency_key else str(uuid.uuid4())
+            ),
         )
     )
     session.commit()

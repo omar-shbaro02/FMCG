@@ -95,27 +95,27 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 22 — Audit and admin health**
   - Audit all material transitions and expose admin-only jobs, system health,
     prompt/classifier/adapter versions without secrets.
-- [ ] **Task 23 — Security hardening**
+- [x] **Task 23 — Security hardening**
   - Run dependency, authorization, upload, injection, prompt-injection, leakage,
     rate-limit, cross-case access, and secret scans; document residual risk.
-- [ ] **Task 24 — Performance and reliability**
+- [x] **Task 24 — Performance and reliability**
   - Test size/concurrency limits, idempotent retries, timeouts, indexes, exports,
     unavailable models, recoverability, observability, and truthful UI status.
-- [ ] **Task 25 — End-to-end scenario testing**
+- [x] **Task 25 — End-to-end scenario testing**
   - Verify scenarios A–I against documented truth, correct human ownership,
     honest insufficiency, neutral simulations, and absence of autonomous action.
-- [ ] **Task 26 — Custom GPT creation**
+- [ ] **Task 26 — Custom GPT creation** (`AWAITING_EXTERNAL_PUBLISHING`)
   - Configure the six specified design/review workspaces and test in-scope,
     boundary, insufficiency, misleading forecast, action, and certainty cases.
   - These are not runtime infrastructure or autonomous agents.
-- [ ] **Task 27 — Documentation**
+- [x] **Task 27 — Documentation**
   - Complete setup, architecture, data/API/adapter/prompt/testing/security/
     deployment guides, backup/restore, runbook, and limitations; dry-run setup.
-- [ ] **Task 28 — Deployment package**
+- [x] **Task 28 — Deployment package**
   - Add production containers, migration/worker startup, health checks, proxy
     example, environment checklist, backup/restore scripts, release checklist,
     smoke test, and rollback documentation.
-- [ ] **Task 29 — Final Kamal review gate**
+- [ ] **Task 29 — Final Kamal review gate** (`AWAITING_APPROVAL`)
   - Present three source scenarios and a full auditable human-reviewed journey;
     answer all ten pilot-readiness questions and obtain approval.
 

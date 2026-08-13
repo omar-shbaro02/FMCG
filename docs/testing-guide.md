@@ -1,9 +1,17 @@
 # Testing guide
 
-Run all available static checks and tests with `make check`. Backend tests use
-Pytest; frontend units use Vitest. CI also performs a production frontend build.
-Playwright and scenario suites will be added with the workflow they exercise.
+Run `make check` after installing development dependencies. CI runs Ruff, full
+strict MyPy, PostgreSQL-backed Pytest with coverage, frontend production
+dependency audit, ESLint, strict TypeScript, Vitest, and a production build.
 
-Task completion requires its targeted tests plus a boundary review. Tests must
-never depend on TimesFM weights or real client data unless explicitly marked as
-an isolated adapter integration test.
+Backend tests cover authentication/RBAC, schema migrations, uploads and data
+quality, deterministic demo fixtures, cases/readiness, baselines, forecast
+adapter contracts and TimesFM normalization/failure, evidence, interpretation,
+classification, investigation, simulations, executive output, attributed review,
+feedback, exports, admin metadata, security configuration, idempotency, and A–I
+scenario journeys.
+
+Use a disposable PostgreSQL database. Tests never require TimesFM weights or real
+client data; provider integration remains isolated behind the adapter. Before a
+release, build both container images, run `scripts/smoke-test.sh`, audit production
+Python/npm dependencies, scan secrets, and rehearse backup/restore in staging.

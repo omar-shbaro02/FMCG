@@ -42,13 +42,13 @@ Machine-transfer and exact continuation instructions are maintained in `LEGION_H
 | 20 | Human review and feedback | COMPLETE | Attributed review, correction, evidence requests, rejection, and separate feedback pass. |
 | 21 | PDF, Markdown, JSON exports | COMPLETE | Access-controlled stored-output exports and review labels pass. |
 | 22 | Audit and admin health | COMPLETE | Admin-only audit, jobs, health, and safe version metadata pass. |
-| 23 | Security hardening | BLOCKED | Not started; dependency findings are open. |
-| 24 | Performance and reliability | BLOCKED | Not started. |
-| 25 | End-to-end scenario testing | BLOCKED | No required scenario suite. |
-| 26 | Custom GPT creation | BLOCKED | External workspace configuration and tests required. |
-| 27 | Documentation | BLOCKED | Existing docs describe the wrong product. |
-| 28 | Deployment package | BLOCKED | Not implemented. |
-| 29 | Final Kamal review | BLOCKED | Mandatory final human gate. |
+| 23 | Security hardening | COMPLETE | Controls/tests applied; production frontend audit has zero findings; residual risks documented. |
+| 24 | Performance and reliability | COMPLETE | Bounded inputs, idempotent retries, observable failures, recovery package pass. |
+| 25 | End-to-end scenario testing | COMPLETE | Required A–I deterministic journeys and human-control assertions pass. |
+| 26 | Custom GPT creation | AWAITING EXTERNAL PUBLISHING | Six specifications and test matrix ready; owner workspace action required. |
+| 27 | Documentation | COMPLETE | Legacy README replaced; developer, API, architecture, security, operations, and limits covered. |
+| 28 | Deployment package | COMPLETE | Release images, proxy, environment, backup/restore, smoke, checklist, rollback packaged. |
+| 29 | Final project-lead review | AWAITING APPROVAL | Final controlled-pilot review packet ready. |
 
 ## Task completion record template
 
@@ -350,3 +350,28 @@ For every task, append a dated record containing:
   exports execute no commercial action, original machine output is preserved,
   and admin responses expose no secrets or raw audit payloads.
 - Acceptance: passed.
+
+## Tasks 23–25 and 27–28 completion record — 2026-08-13
+
+- Security: production default-secret rejection, defensive headers, bounded
+  rate limiting, prompt-injection regression, repository secret-pattern scan,
+  upload controls, RBAC review, and dependency remediation. Production frontend
+  audit reports zero vulnerabilities after Next.js 16.3/React 19 migration.
+- Reliability: idempotent forecast and decision-intelligence retries, bounded
+  uploads/model timeout, observable structured failures, indexed persistence,
+  export coverage, and explicit synchronous-worker status.
+- Scenarios: all required A–I journeys pass expected primary class/priority,
+  human owner, honest insufficiency, all seven neutral simulations, and mandatory
+  review language.
+- Documentation/deployment: obsolete autonomous-agent README replaced; complete
+  architecture/data/API/TimesFM/prompt/testing/security/deployment/operations/
+  limitations guides; non-root production images, Nginx example, environment and
+  release checklists, backup/restore and smoke scripts, and rollback procedure.
+- Tests: Ruff and focused strict MyPy pass; 71 backend tests pass against a fresh
+  PostgreSQL migration. Frontend ESLint, TypeScript, Vitest, Next.js production
+  build, and zero-finding production dependency audit pass.
+- External dependency: Task 26 workspace specifications and test matrix are ready,
+  but publishing six Custom GPTs requires owner action in their ChatGPT workspace.
+- Boundary check: preserved; no autonomous agent, optimization, execution, or
+  false certainty was introduced. Task 29 remains a mandatory human gate.
+- Acceptance: Tasks 23–25 and 27–28 passed; Tasks 26 and 29 remain open.
