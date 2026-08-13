@@ -68,3 +68,4 @@ No real client data or model weights are committed.
 - [Operator runbook](docs/operator-runbook.md)
 - [Known limitations](docs/known-limitations.md)
 - [Custom GPT workspace handoff](docs/custom-gpt-workspaces.md)
+- [Reusable generic project blueprint](blueprints/generic-project/README.md)
