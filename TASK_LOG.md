@@ -132,3 +132,50 @@ The authoritative acceptance details are in `IMPLEMENTATION_TASKS.md`:
 Legacy top-level documents describing a six-agent Trade Promotion Distortion
 Intelligence product are historical only and conflict with the frozen canon.
 They are not evidence of completion for this application.
+
+## Release-readiness audit — 2026-08-13
+
+**Status:** engineering checks pass; human/external release gates remain open.
+
+### Completed
+
+- Reconciled the current implementation backlog and release documents.
+- Replaced obsolete setup scripts that referenced removed requirements/setup
+  files, an OpenAI key, and the retired Vite port.
+- Made the supported Python, Node, virtual-environment, PostgreSQL, and frontend
+  setup requirements explicit.
+- Corrected CI to start PostgreSQL, wait for health, and apply Alembic before
+  running database-backed tests.
+- Updated the backend example environment and Next.js architecture version.
+- Reframed Task 26 around the approved local, read-only Codex agents while
+  retaining the full acceptance-test gate.
+
+### Verification
+
+- Backend container image build: passed on Python 3.12.
+- Ruff: passed.
+- Backend Pytest: 71 passed with 91% line coverage on PostgreSQL 16 and the
+  advisory-fixed Pytest 9.0.3 line.
+- Alembic head → base → head rehearsal: passed on a disposable database.
+- Frontend ESLint, strict TypeScript, Vitest, and Next.js 16 production build:
+  passed.
+- Python plus frontend/root production npm audits: no known vulnerabilities
+  reported; the local editable project package was correctly skipped by
+  `pip-audit` because it is not published on PyPI.
+- Frontend production container build: passed on Node.js 24.
+- Live health, OpenAPI (24 routes), login, unauthorized rejection, and frontend
+  smoke checks: passed.
+- Codex custom-agent TOML and shell setup syntax: passed.
+
+### Remaining gates
+
+- Run and record all six Task 26 acceptance cases against each of the six local
+  review agents.
+- Complete staging security/backup/TLS/TimesFM checks in the release checklist.
+- Obtain the project owner's explicit Task 29 pilot approval.
+
+### Boundary confirmation
+
+No runtime autonomous agents, commercial execution controls, forecast-to-action
+path, or scope expansion was introduced. The local Codex agents remain read-only
+design/review workspaces and all commercial decisions require human review.

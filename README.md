@@ -28,9 +28,15 @@ Open `http://localhost:3000`; API documentation is at
 The canonical API entry point is `backend/app/main.py` (`app.main:app`). Retired
 autonomous-agent prototype modules have been removed from the maintained tree.
 
+For a host-based development setup instead of containers, install Python
+3.11–3.13, Node.js 24+, and npm 10+, then run `./setup.sh` (macOS/Linux) or
+`setup.bat` (Windows). Activate `.venv` before using `make check` or the backend
+development command. Database-backed checks require PostgreSQL on localhost;
+start it with `docker compose up -d database` before running `make check`.
+
 ## Architecture
 
-- Next.js 14 / TypeScript controlled workflow UI
+- Next.js 16 / React 19 / TypeScript controlled workflow UI
 - FastAPI modular monolith
 - PostgreSQL persistence and Alembic migrations
 - Redis boundary for future background execution

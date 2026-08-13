@@ -1,96 +1,26 @@
 @echo off
-REM FMCG Trade Promotion Intelligence - Setup Script for Windows
+setlocal
+cd /d "%~dp0"
 
-echo.
-echo ================================================
-echo FMCG Trade Promotion Intelligence - Setup
-echo ================================================
-echo.
+python --version >nul 2>&1 || (echo Python 3.11-3.13 is required. & exit /b 1)
+node --version >nul 2>&1 || (echo Node.js 24 or newer is required. & exit /b 1)
+npm --version >nul 2>&1 || (echo npm 10 or newer is required. & exit /b 1)
 
-REM Check Python
-echo Checking Python...
-python --version >nul 2>&1
-if errorlevel 1 (
-    echo Error: Python 3 is required but not installed.
-    exit /b 1
-)
-python --version
+python -c "import sys; raise SystemExit(0 if (3,11) <= sys.version_info[:2] < (3,14) else 1)" || (echo Python 3.11-3.13 is required. & exit /b 1)
+node -e "if(Number(process.versions.node.split('.')[0])<24)process.exit(1)" || (echo Node.js 24 or newer is required. & exit /b 1)
 
-REM Check Node
-echo Checking Node.js...
-node --version >nul 2>&1
-if errorlevel 1 (
-    echo Error: Node.js is required but not installed.
-    exit /b 1
-)
-node --version
+python -m venv --clear .venv || exit /b 1
+call .venv\Scripts\activate.bat
+python -m pip install --upgrade pip || exit /b 1
+python -m pip install -e ".\backend[dev]" || exit /b 1
+call npm ci || exit /b 1
+call npm --prefix frontend ci || exit /b 1
 
-REM Backend setup
-echo.
-echo Setting up backend...
-cd backend
-
-if not exist "venv" (
-    python -m venv venv
-    echo Created virtual environment
+if not exist .env (
+  copy .env.example .env >nul
+  echo Created .env. Replace development secrets before shared or production use.
 )
 
-call venv\Scripts\activate.bat
-pip install -q -r requirements.txt
-echo Installed Python dependencies
-
-if not exist ".env" (
-    copy .env.example .env
-    echo Created .env file
-    echo.
-    echo IMPORTANT: Edit backend\.env and add your OpenAI API key
-    echo Then run: python setup.py
-    echo.
-)
-
-cd ..
-
-REM Root npm setup (for concurrently)
-echo.
-echo Setting up root npm (concurrently)...
-if not exist "node_modules" (
-    npm install -q
-    echo Installed root npm dependencies
-)
-
-REM Frontend setup
-echo.
-echo Setting up frontend...
-cd frontend
-
-if not exist "node_modules" (
-    npm install -q
-    echo Installed frontend npm dependencies
-)
-
-cd ..
-
-echo.
-echo ================================================
-echo Setup Complete!
-echo ================================================
-echo.
-echo Next steps:
-echo.
-echo 1. Edit backend\.env with your OpenAI API key
-echo.
-echo 2. Initialize database:
-echo    python backend\setup.py
-echo.
-echo 3. Start both backend and frontend (from FMCG directory):
-echo    npm run dev
-echo.
-echo    (or run them separately:)
-echo    npm run dev:backend    (Terminal 1)
-echo    npm run dev:frontend   (Terminal 2)
-echo.
-echo 4. Open: http://localhost:5173
-echo.
-echo ================================================
-echo.
-pause
+echo Setup complete. Run "call .venv\Scripts\activate.bat" and then "make check".
+echo For the full stack, run "docker compose up --build" and open http://localhost:3000.
+endlocal

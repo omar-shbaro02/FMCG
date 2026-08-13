@@ -104,10 +104,12 @@ Human gates at Tasks 0, 12, 15, and 29 require explicit Kamal approval.
 - [x] **Task 25 — End-to-end scenario testing**
   - Verify scenarios A–I against documented truth, correct human ownership,
     honest insufficiency, neutral simulations, and absence of autonomous action.
-- [ ] **Task 26 — Custom GPT creation** (`AWAITING_EXTERNAL_PUBLISHING`)
-  - Configure the six specified design/review workspaces and test in-scope,
-    boundary, insufficiency, misleading forecast, action, and certainty cases.
-  - These are not runtime infrastructure or autonomous agents.
+- [ ] **Task 26 — Controlled review workspaces** (`LOCAL_AGENTS_IMPLEMENTED; EVAL_PENDING`)
+  - The project owner replaced external ChatGPT Custom GPT publishing with six
+    project-scoped, read-only Codex custom agents under `.codex/agents/`.
+  - Run and record the in-scope, boundary, insufficiency, misleading forecast,
+    direct-action, and false-certainty acceptance matrix for every agent.
+  - These are not runtime infrastructure or autonomous commercial agents.
 - [x] **Task 27 — Documentation**
   - Complete setup, architecture, data/API/adapter/prompt/testing/security/
     deployment guides, backup/restore, runbook, and limitations; dry-run setup.

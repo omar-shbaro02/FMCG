@@ -1,93 +1,33 @@
-#!/bin/bash
-# FMCG Trade Promotion Intelligence - Setup Script for macOS/Linux
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo ""
-echo "================================================"
-echo "FMCG Trade Promotion Intelligence - Setup"
-echo "================================================"
-echo ""
+project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$project_dir"
 
-# Check Python
-echo "🔍 Checking Python..."
-if ! command -v python3 &> /dev/null; then
-    echo "✗ Python 3 is required but not installed."
-    exit 1
-fi
-python3 --version
+command -v python3 >/dev/null || { echo "Python 3.11-3.13 is required." >&2; exit 1; }
+command -v node >/dev/null || { echo "Node.js 24 or newer is required." >&2; exit 1; }
+command -v npm >/dev/null || { echo "npm 10 or newer is required." >&2; exit 1; }
 
-# Check Node
-echo "🔍 Checking Node.js..."
-if ! command -v node &> /dev/null; then
-    echo "✗ Node.js is required but not installed."
-    exit 1
-fi
-node --version
+python3 - <<'PY'
+import sys
+if not ((3, 11) <= sys.version_info[:2] < (3, 14)):
+    raise SystemExit(
+        f"Python 3.11-3.13 is required; found {sys.version_info.major}.{sys.version_info.minor}."
+    )
+PY
 
-# Backend setup
-echo ""
-echo "🔧 Setting up backend..."
-cd backend
+node -e 'const major=Number(process.versions.node.split(".")[0]); if (major < 24) { console.error(`Node.js 24 or newer is required; found ${process.versions.node}.`); process.exit(1) }'
 
-if [ ! -d "venv" ]; then
-    python3 -m venv venv
-    echo "✓ Created virtual environment"
-fi
+python3 -m venv --clear .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -e './backend[dev]'
+npm ci
+npm --prefix frontend ci
 
-source venv/bin/activate
-pip install -q -r requirements.txt
-echo "✓ Installed Python dependencies"
-
-if [ ! -f ".env" ]; then
+if [ ! -f .env ]; then
     cp .env.example .env
-    echo "✓ Created .env file"
-    echo ""
-    echo "⚠ IMPORTANT: Edit backend/.env and add your OpenAI API key"
-    echo "   Then run: python setup.py"
-    echo ""
+    echo "Created .env. Replace development secrets before shared or production use."
 fi
 
-# Root npm setup (for concurrently)
-echo ""
-echo "🔧 Setting up root npm (concurrently)..."
-if [ ! -d "node_modules" ]; then
-    npm install -q
-    echo "✓ Installed root npm dependencies"
-fi
-
-cd ..
-
-# Frontend setup
-echo ""
-echo "🔧 Setting up frontend..."
-cd frontend
-
-if [ ! -d "node_modules" ]; then
-    npm install -q
-    echo "✓ Installed frontend npm dependencies"
-fi
-
-cd ..
-
-echo ""
-echo "================================================"
-echo "✅ Setup Complete!"
-echo "================================================"
-echo ""
-echo "Next steps:"
-echo ""
-echo "1. Edit backend/.env with your OpenAI API key"
-echo ""
-echo "2. Initialize database:"
-echo "   python backend/setup.py"
-echo ""
-echo "3. Start both backend and frontend (from FMCG directory):"
-echo "   npm run dev"
-echo ""
-echo "   (or run them separately:)"
-echo "   npm run dev:backend    # Terminal 1"
-echo "   npm run dev:frontend   # Terminal 2"
-echo ""
-echo "4. Open: http://localhost:5173"
-echo ""
-echo "================================================"
-echo ""
+echo "Setup complete. Run 'source .venv/bin/activate && make check'."
+echo "For the full stack, run 'docker compose up --build' and open http://localhost:3000."
