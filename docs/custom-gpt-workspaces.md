@@ -39,3 +39,8 @@ each GPT, paste the corresponding purpose/common boundary above plus the detaile
 Section 24 instructions from the approved build brief, upload the listed docs,
 run the matrix, and record screenshots/version IDs. The application does not
 depend on completion of that external publishing step.
+
+For the complete combined Section 24 instructions, input/output schemas,
+conversation starters, knowledge-file mapping, and creation checklist, use
+`custom-gpt-creation-pack.md` instead of assembling the builder configuration
+manually.
