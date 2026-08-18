@@ -84,6 +84,17 @@ wait_for_api() {
   return 1
 }
 
+wait_for_database() {
+  for _ in $(seq 1 60); do
+    if podman exec "$database_container" pg_isready -U fmcg -d fmcg >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+  done
+  echo "PostgreSQL did not become ready." >&2
+  return 1
+}
+
 case "$command_name" in
   start)
     remove_demo_containers
@@ -97,6 +108,7 @@ case "$command_name" in
       -v "$database_volume:/var/lib/postgresql/data" postgres:16-alpine >/dev/null
     podman run -d --name "$redis_container" --network "$network" --network-alias redis \
       redis:7-alpine >/dev/null
+    wait_for_database
     podman run -d --name "$api_container" --network "$network" --network-alias api \
       -p 8000:8000 \
       -e ENVIRONMENT=development \
