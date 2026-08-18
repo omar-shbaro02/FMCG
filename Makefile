@@ -1,4 +1,4 @@
-.PHONY: install dev build lint typecheck test check compose-up compose-down
+.PHONY: install dev build lint typecheck test check compose-up compose-down demo demo-check demo-logs demo-stop demo-reset
 
 install:
 	npm ci
@@ -33,3 +33,18 @@ compose-up:
 
 compose-down:
 	docker compose down
+
+demo:
+	./scripts/client-demo.sh start
+
+demo-check:
+	./scripts/client-demo.sh check
+
+demo-logs:
+	./scripts/client-demo.sh logs
+
+demo-stop:
+	./scripts/client-demo.sh stop
+
+demo-reset:
+	./scripts/client-demo.sh reset

@@ -1,0 +1,11 @@
+services:
+  api:
+    environment:
+      ENVIRONMENT: development
+      FORECAST_ADAPTER: mock
+      BOOTSTRAP_ADMIN_EMAIL: admin@example.com
+      BOOTSTRAP_ADMIN_PASSWORD: development-admin-only
+    volumes:
+      - uploads_data:/app/var/uploads
+      - ./fixtures:/demo/fixtures:ro,z
+      - ./scripts:/demo/scripts:ro,z
