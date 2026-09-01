@@ -20,6 +20,7 @@ import {
   Plus,
   Search,
   ShieldCheck,
+  Trash2,
   Upload,
   UserRoundCheck,
   X,
@@ -384,6 +385,37 @@ export default function HomePage() {
                 go("assessment");
               }}
               onCreate={() => go("create")}
+              onDelete={async (item) => {
+                if (
+                  !window.confirm(
+                    `Permanently delete “${item.title}” and its generated analysis?`,
+                  )
+                )
+                  return;
+                try {
+                  await request(`/api/diagnostic-cases/${item.id}`, token, {
+                    method: "DELETE",
+                  });
+                  if (selected?.id === item.id) {
+                    setSelected(
+                      cases.find((candidate) => candidate.id !== item.id) ||
+                        null,
+                    );
+                    setOutput(null);
+                    setEvidence(null);
+                  }
+                  await loadCases();
+                  setNotice(
+                    "Diagnostic case deleted. The source dataset was retained.",
+                  );
+                } catch (err) {
+                  setError(
+                    err instanceof Error
+                      ? err.message
+                      : "Could not delete case",
+                  );
+                }
+              }}
             />
           )}
           {view === "create" && (
@@ -564,11 +596,13 @@ function CasesView({
   selected,
   onSelect,
   onCreate,
+  onDelete,
 }: {
   cases: Case[];
   selected: Case | null;
   onSelect: (c: Case) => void;
   onCreate: () => void;
+  onDelete: (c: Case) => void;
 }) {
   const counts = useMemo(
     () => ({
@@ -644,12 +678,17 @@ function CasesView({
               <span />
             </div>
             {cases.map((item) => (
-              <button
+              <div
                 key={item.id}
                 className={
                   selected?.id === item.id ? "case-row selected" : "case-row"
                 }
                 onClick={() => onSelect(item)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") onSelect(item);
+                }}
+                role="button"
+                tabIndex={0}
               >
                 <span>
                   <b>{item.title}</b>
@@ -677,8 +716,18 @@ function CasesView({
                   </Status>
                 </span>
                 <span>{new Date(item.updated_at).toLocaleDateString()}</span>
-                <ChevronRight />
-              </button>
+                <button
+                  className="delete-case"
+                  aria-label={`Delete ${item.title}`}
+                  title="Delete case"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onDelete(item);
+                  }}
+                >
+                  <Trash2 />
+                </button>
+              </div>
             ))}
           </div>
         )}

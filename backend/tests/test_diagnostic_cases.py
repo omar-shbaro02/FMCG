@@ -246,6 +246,29 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
         )
 
 
+def test_case_can_be_deleted_without_deleting_its_dataset(ready_dataset: uuid.UUID) -> None:
+    with TestClient(app) as client:
+        headers = login(client)
+        created = client.post(
+            "/api/diagnostic-cases", json=case_payload(ready_dataset), headers=headers
+        )
+        case_id = created.json()["id"]
+
+        removed = client.delete(f"/api/diagnostic-cases/{case_id}", headers=headers)
+
+        assert removed.status_code == 204
+        assert client.get(f"/api/diagnostic-cases/{case_id}", headers=headers).status_code == 404
+        with SessionLocal() as session:
+            assert session.get(Dataset, ready_dataset) is not None
+            deletion = session.scalar(
+                select(AuditEvent).where(
+                    AuditEvent.entity_id == uuid.UUID(case_id),
+                    AuditEvent.event_type == "DIAGNOSTIC_CASE_DELETED",
+                )
+            )
+            assert deletion is not None
+
+
 def test_invalid_scope_cannot_be_submitted(ready_dataset: uuid.UUID) -> None:
     payload = case_payload(ready_dataset)
     payload["sku_id"] = "SKU-MISSING"

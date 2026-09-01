@@ -113,6 +113,26 @@ def get_case(
     return _get_case(session, case_id)
 
 
+@router.delete("/{case_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_case(
+    case_id: uuid.UUID,
+    actor: Annotated[AuthenticatedUser, Depends(require_roles(*CASE_MANAGERS))],
+    session: Annotated[Session, Depends(get_db)],
+) -> None:
+    case = _get_case(session, case_id)
+    snapshot = {
+        "title": case.title,
+        "status": case.status.value,
+        "dataset_id": str(case.dataset_id),
+        "sku_id": case.sku_id,
+        "channel": case.channel,
+        "region": case.region,
+    }
+    _audit(session, actor, case, "DIAGNOSTIC_CASE_DELETED", snapshot, None)
+    session.delete(case)
+    session.commit()
+
+
 @router.patch("/{case_id}", response_model=DiagnosticCaseResponse)
 def update_case(
     case_id: uuid.UUID,

@@ -534,6 +534,7 @@ textarea:focus {
   width: 100%;
   text-align: left;
   color: var(--ink);
+  cursor: pointer;
 }
 .case-row:hover,
 .case-row.selected {
@@ -558,6 +559,24 @@ textarea:focus {
 .case-row svg {
   width: 16px;
   color: #91a098;
+}
+.case-row .delete-case {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #9a625d;
+}
+.case-row .delete-case:hover,
+.case-row .delete-case:focus-visible {
+  background: #f9e9e7;
+  color: #a23f35;
+}
+.case-row .delete-case svg {
+  width: 15px;
 }
 .status {
   display: inline-flex !important;
