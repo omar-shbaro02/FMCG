@@ -32,6 +32,46 @@ from app.security import require_roles
 router = APIRouter(tags=["decision intelligence"])
 
 
+def _available_business_evidence(fact_keys: set[str]) -> set[str]:
+    """Translate stored technical facts into the planner's commercial vocabulary."""
+    available: set[str] = set()
+    aliases = {
+        "baseline_mean": {"aligned baseline", "baseline"},
+        "forecast_mean": {"forecast trajectory"},
+        "decay_percent": {"post-promotion decay"},
+        "sell_in_to_sell_out_ratio": {"divergence ratio"},
+        "sell_in_sell_out_divergence": {"sell-in growth", "sell-out growth"},
+        "retention_status": {
+            "actual post-promotion sell-out",
+            "weekly post-promotion sell-out",
+            "post-promotion actuals",
+        },
+    }
+    for key in fact_keys:
+        available.update(aliases.get(key, set()))
+    # These measures are mandatory columns on every validated weekly FMCG row.
+    available.update(
+        {
+            "promotion end date",
+            "promotion uplift timing",
+            "promotion history",
+            "stock availability",
+            "distributor stock",
+            "stock on hand",
+            "sell-in",
+            "sell-out",
+            "returns",
+            "discount depth",
+            "weekly uplift",
+            "sell-out units",
+            "net sales",
+            "gross sales",
+            "gross margin",
+        }
+    )
+    return available
+
+
 def _latest_evidence(session: Session, case_id: uuid.UUID) -> ForecastEvidence | None:
     return session.scalar(
         select(ForecastEvidence)
@@ -89,7 +129,8 @@ def create_decision_intelligence(
         InterpretationInput(evidence_values, evidence.data_quality_notes_json)
     )
     classification = classify(ClassificationInput(interpretation))
-    available = {item["key"].replace("_", " ") for item in interpretation.facts}
+    fact_keys = {str(item["key"]) for item in interpretation.facts}
+    available = _available_business_evidence(fact_keys)
     plan = build_investigation_plan(classification, available)
     simulations = simulate_options(classification, plan)
     executive = generate_executive_output(interpretation, classification, plan, simulations)
