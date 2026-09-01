@@ -67,6 +67,8 @@ def _available_business_evidence(fact_keys: set[str]) -> set[str]:
             "net sales",
             "gross sales",
             "gross margin",
+            "risk-specific evidence",
+            "critical evidence gaps",
         }
     )
     return available

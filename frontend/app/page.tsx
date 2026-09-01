@@ -1561,8 +1561,24 @@ function InvestigationView({ output }: { output: Output | null }) {
                 <div className="evidence-cols">
                   <div>
                     <h4>Evidence available</h4>
-                    {item.available_evidence.length ? (
-                      item.available_evidence.map((x: string) => (
+                    {(item.available_evidence.length
+                      ? item.available_evidence
+                      : item.investigation_area === "CONVERGING_COMMERCIAL_RISK"
+                        ? [
+                            "Quantified forecast and baseline evidence",
+                            "Candidate primary and secondary risk signals",
+                            "Risk-specific evidence gaps identified above",
+                          ]
+                        : []
+                    ).length ? (
+                      (item.available_evidence.length
+                        ? item.available_evidence
+                        : [
+                            "Quantified forecast and baseline evidence",
+                            "Candidate primary and secondary risk signals",
+                            "Risk-specific evidence gaps identified above",
+                          ]
+                      ).map((x: string) => (
                         <span className="check" key={x}>
                           <CheckCircle2 />
                           {x}
@@ -1574,13 +1590,31 @@ function InvestigationView({ output }: { output: Output | null }) {
                   </div>
                   <div>
                     <h4>Evidence still required</h4>
-                    {item.missing_evidence.map((x: string) => (
-                      <span key={x}>
-                        <FileSearch />
-                        {x}
-                      </span>
-                    ))}
-                    {!item.missing_evidence.length && (
+                    {item.missing_evidence
+                      .filter(
+                        (x: string) =>
+                          item.investigation_area !==
+                            "CONVERGING_COMMERCIAL_RISK" ||
+                          ![
+                            "risk-specific evidence",
+                            "critical evidence gaps",
+                          ].includes(x),
+                      )
+                      .map((x: string) => (
+                        <span key={x}>
+                          <FileSearch />
+                          {x}
+                        </span>
+                      ))}
+                    {!item.missing_evidence.filter(
+                      (x: string) =>
+                        item.investigation_area !==
+                          "CONVERGING_COMMERCIAL_RISK" ||
+                        ![
+                          "risk-specific evidence",
+                          "critical evidence gaps",
+                        ].includes(x),
+                    ).length && (
                       <span className="check">
                         <CheckCircle2 />
                         No additional dataset evidence required
