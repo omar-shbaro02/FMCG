@@ -15,3 +15,9 @@ The scenarios cover healthy growth, temporary uplift, pull-forward, loading,
 discount dependency, cannibalization, margin/value-quality deterioration, and
 insufficient evidence. They use weekly `sku_id + channel + region` grain and the
 frozen data dictionary columns.
+
+The generator also produces the upload-ready combined portfolio at
+`frontend/public/demo-data/fmcg-demo-portfolio.csv`. It contains 214 weekly rows
+across nine isolated SKU series: every scenario above, both promoted and adjacent
+SKUs for cannibalization, and a deliberately short ineligible series. Download it
+from the application's **Datasets** screen to demonstrate upload and validation.

@@ -219,7 +219,7 @@ def get_forecast_evidence(
         ),
     ],
     session: Annotated[Session, Depends(get_db)],
-) -> ForecastEvidence:
+) -> ForecastEvidenceResponse:
     evidence = session.scalar(
         select(ForecastEvidence)
         .join(ForecastRun, ForecastRun.id == ForecastEvidence.forecast_run_id)
@@ -230,4 +230,37 @@ def get_forecast_evidence(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Forecast evidence not found"
         )
-    return evidence
+    run = session.get(ForecastRun, evidence.forecast_run_id)
+    case = session.get(DiagnosticCase, run.diagnostic_case_id) if run else None
+    history: list[dict[str, object]] = []
+    if case is not None:
+        rows = list(
+            session.scalars(
+                select(WeeklyFmcgSale)
+                .where(
+                    WeeklyFmcgSale.source_dataset_id == case.dataset_id,
+                    WeeklyFmcgSale.sku_id == case.sku_id,
+                    WeeklyFmcgSale.channel == case.channel,
+                    WeeklyFmcgSale.region == case.region,
+                )
+                .order_by(WeeklyFmcgSale.week_start_date)
+            )
+        )
+        history = [
+            {
+                "week_start_date": row.week_start_date.isoformat(),
+                "sell_out_units": float(row.sell_out_units),
+                "sell_in_units": float(row.sell_in_units),
+                "stock_on_hand": float(row.stock_on_hand),
+                "promo_flag": row.promo_flag,
+            }
+            for row in rows
+        ]
+    response = ForecastEvidenceResponse.model_validate(evidence, from_attributes=True)
+    return response.model_copy(
+        update={
+            "historical_values_json": history,
+            "promotion_start_week": case.promotion_start_week if case else None,
+            "promotion_end_week": case.promotion_end_week if case else None,
+        }
+    )

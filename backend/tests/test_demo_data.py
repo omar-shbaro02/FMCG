@@ -1,11 +1,14 @@
 import json
+import random
 import sys
 from pathlib import Path
+
+import pandas as pd
 
 from app.domain.data_quality import DatasetValidator
 
 sys.path.insert(0, str(Path(__file__).parents[2] / "scripts"))
-from seed_demo_data import SCENARIOS, generate  # noqa: E402
+from seed_demo_data import COLUMNS, SCENARIOS, generate, generate_portfolio  # noqa: E402
 
 
 def test_demo_generation_is_deterministic_and_documents_truth(tmp_path: Path) -> None:
@@ -40,3 +43,17 @@ def test_demo_scenarios_pass_schema_and_have_expected_viability(tmp_path: Path) 
             assert not report.series_eligibility[0].eligible
         elif scenario != "cannibalization":
             assert all(item.eligible for item in report.series_eligibility), scenario
+
+
+def test_portfolio_is_upload_ready_and_covers_every_scenario(tmp_path: Path) -> None:
+    destination = tmp_path / "fmcg-demo-portfolio.csv"
+    generate_portfolio(destination)
+
+    frame = pd.read_csv(destination)
+    assert set(COLUMNS) == set(frame.columns)
+    assert len(frame) == sum(
+        len(scenario.builder(random.Random(scenario.seed)))
+        for scenario in SCENARIOS.values()
+    )
+    assert frame["sku_id"].nunique() == len(SCENARIOS) + 1
+    assert frame["sku_id"].str.startswith("DEMO-").all()

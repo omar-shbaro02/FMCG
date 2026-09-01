@@ -250,7 +250,7 @@ def generate(output_root: Path) -> None:
         destination.mkdir(parents=True, exist_ok=True)
         rows = scenario.builder(random.Random(scenario.seed))
         with (destination / "weekly_sales.csv").open("w", newline="", encoding="utf-8") as handle:
-            writer = csv.DictWriter(handle, fieldnames=COLUMNS)
+            writer = csv.DictWriter(handle, fieldnames=COLUMNS, lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
         truth = {
@@ -270,11 +270,42 @@ def generate(output_root: Path) -> None:
         )
 
 
+def generate_portfolio(output_path: Path) -> None:
+    """Create one upload-ready file spanning every synthetic scenario."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    portfolio_rows: list[dict[str, Any]] = []
+    for name, scenario in SCENARIOS.items():
+        rows = scenario.builder(random.Random(scenario.seed))
+        for row in rows:
+            item = dict(row)
+            original_sku = str(item["sku_id"])
+            suffix = ""
+            if name == "cannibalization":
+                suffix = "-PROMOTED" if original_sku == "SKU-PROMOTED" else "-ADJACENT"
+            item["sku_id"] = f"DEMO-{name.replace('_', '-').upper()}{suffix}"
+            item["brand"] = f"Synthetic {name.replace('_', ' ').title()}"
+            portfolio_rows.append(item)
+    with output_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=COLUMNS, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(portfolio_rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path(__file__).parents[1] / "fixtures")
+    parser.add_argument(
+        "--portfolio-output",
+        type=Path,
+        default=Path(__file__).parents[1]
+        / "frontend"
+        / "public"
+        / "demo-data"
+        / "fmcg-demo-portfolio.csv",
+    )
     args = parser.parse_args()
     generate(args.output)
+    generate_portfolio(args.portfolio_output)
 
 
 if __name__ == "__main__":

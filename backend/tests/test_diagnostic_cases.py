@@ -210,6 +210,10 @@ def test_case_crud_readiness_and_submit_flow(ready_dataset: uuid.UUID) -> None:
     assert forecast_retry.json()["id"] == forecast_run.json()["id"]
     assert forecast_evidence.status_code == 200
     assert forecast_evidence.json()["forecast_horizon"] == 6
+    assert len(forecast_evidence.json()["historical_values_json"]) == 12
+    assert forecast_evidence.json()["historical_values_json"][0]["sell_out_units"] == 100.0
+    assert forecast_evidence.json()["promotion_start_week"] == "2026-02-09"
+    assert forecast_evidence.json()["promotion_end_week"] == "2026-02-16"
     assert decision_intelligence.status_code == 201
     assert decision_intelligence.json()["human_review_status"] == "PENDING"
     assert decision_retry.json()["id"] == decision_intelligence.json()["id"]

@@ -55,6 +55,12 @@ temporary-uplift and post-promotion-recovery cases when the client wants to
 compare how apparently positive promotions can expose different evidence shapes
 and verification needs.
 
+To demonstrate ingestion, open **Datasets**, download **Full synthetic
+portfolio**, upload that CSV, and run validation. The file contains 214 rows
+across all eight scenario families, including an intentionally short series that
+shows how forecast ineligibility remains visible rather than being silently
+discarded.
+
 ## Presenter notes
 
 - Say “forecast evidence” and “candidate interpretation,” not “the model proved.”

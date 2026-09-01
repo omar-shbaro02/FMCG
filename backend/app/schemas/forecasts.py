@@ -1,7 +1,7 @@
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ForecastRunResponse(BaseModel):
@@ -35,3 +35,6 @@ class ForecastEvidenceResponse(BaseModel):
     decay_signal: str
     uncertainty_level: str
     data_quality_notes_json: list[str]
+    historical_values_json: list[dict[str, object]] = Field(default_factory=list)
+    promotion_start_week: date | None = None
+    promotion_end_week: date | None = None
