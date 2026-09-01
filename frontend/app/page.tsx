@@ -215,6 +215,64 @@ export default function HomePage() {
     setError("");
     setNotice("");
   }
+  async function runFullDiagnostic(target: Case) {
+    setBusy(true);
+    setError("");
+    setSelected(target);
+    setView("assessment");
+    try {
+      if (target.status === "DRAFT") {
+        await request(`/api/diagnostic-cases/${target.id}/submit`, token, {
+          method: "POST",
+        });
+      }
+      if (["DRAFT", "READY_FOR_FORECAST"].includes(target.status)) {
+        await request(
+          `/api/diagnostic-cases/${target.id}/baseline-calculations`,
+          token,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              method: "RECENT_PRE_PROMO_AVERAGE",
+              recent_weeks: 8,
+            }),
+          },
+        );
+        await request(
+          `/api/diagnostic-cases/${target.id}/forecast-runs`,
+          token,
+          {
+            method: "POST",
+            headers: { "Idempotency-Key": `ui-${target.id}-forecast` },
+          },
+        );
+      }
+      const result = await request(
+        `/api/diagnostic-cases/${target.id}/decision-intelligence`,
+        token,
+        {
+          method: "POST",
+          headers: { "Idempotency-Key": `ui-${target.id}-decision` },
+        },
+      );
+      setOutput(result);
+      const refreshed = await request(
+        `/api/diagnostic-cases/${target.id}`,
+        token,
+      );
+      setSelected(refreshed);
+      await loadCases();
+      setNotice(
+        "Full diagnostic completed. The result is ready for human review.",
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Diagnostic processing failed",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
     <div className="app-frame">
       <aside className={menu ? "sidebar open" : "sidebar"}>
@@ -334,10 +392,7 @@ export default function HomePage() {
               draft={caseDraft}
               onDone={async (item) => {
                 setCaseDraft(null);
-                await loadCases();
-                setSelected(item);
-                setNotice("Diagnostic case created as a draft.");
-                go("cases");
+                await runFullDiagnostic(item);
               }}
               setError={setError}
             />
@@ -360,28 +415,7 @@ export default function HomePage() {
             <AssessmentView
               selected={selected}
               output={output}
-              onGenerate={async () => {
-                if (!selected) return;
-                setBusy(true);
-                try {
-                  const result = await request(
-                    `/api/diagnostic-cases/${selected.id}/decision-intelligence`,
-                    token,
-                    { method: "POST" },
-                  );
-                  setOutput(result);
-                  await loadCases();
-                  setNotice(
-                    "Decision-intelligence draft generated for human review.",
-                  );
-                } catch (err) {
-                  setError(
-                    err instanceof Error ? err.message : "Generation failed",
-                  );
-                } finally {
-                  setBusy(false);
-                }
-              }}
+              onGenerate={() => selected && void runFullDiagnostic(selected)}
               busy={busy}
             />
           )}
@@ -661,7 +695,7 @@ function CreateView({
 }: {
   token: string;
   draft: CaseDraft | null;
-  onDone: (c: Case) => void;
+  onDone: (c: Case) => Promise<void>;
   setError: (s: string) => void;
 }) {
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -675,7 +709,7 @@ function CreateView({
           forecast_horizon_weeks: Number(data.forecast_horizon_weeks),
         }),
       });
-      onDone(item);
+      await onDone(item);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create case");
     }
@@ -771,7 +805,7 @@ function CreateView({
         </label>
         <div className="form-actions span-2">
           <button className="primary">
-            Create draft case
+            Create & run diagnostic
             <ArrowRight />
           </button>
         </div>
@@ -1342,13 +1376,16 @@ function AssessmentView({
         title="Growth quality assessment"
         intro="Facts remain separate from interpretation, risk classification, and priority."
         action={
-          !output && selected.status === "INTERPRETING" ? (
+          !output &&
+          ["DRAFT", "READY_FOR_FORECAST", "INTERPRETING"].includes(
+            selected.status,
+          ) ? (
             <button
               className="primary compact"
               onClick={onGenerate}
               disabled={busy}
             >
-              {busy ? "Generating…" : "Generate draft"}
+              {busy ? "Running diagnostic…" : "Run full diagnostic"}
               <ArrowRight />
             </button>
           ) : undefined
@@ -1358,11 +1395,7 @@ function AssessmentView({
       {!data ? (
         <Empty
           title="Assessment not available"
-          text={
-            selected.status === "INTERPRETING"
-              ? "This case is ready. Generate its controlled decision-intelligence draft."
-              : "Complete data validation, baseline, and forecasting before assessment."
-          }
+          text="The dataset is validated. Run the case diagnostic to calculate its baseline, forecast movement, and generate the assessment."
         />
       ) : (
         <>
